@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ensure native form elements have fast scroll */
+input, select, textarea {
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Disable smooth scrolling globally to fix slow scroll in date picker */
+*, *::before, *::after {
+  scroll-behavior: auto !important;
+}
+
+/* Force hardware acceleration off for better scroll performance */
+html {
+  scroll-behavior: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Responsive Font Sizes */
+@media (max-width: 1440px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1024px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    font-size: 11px;
+  }
+}

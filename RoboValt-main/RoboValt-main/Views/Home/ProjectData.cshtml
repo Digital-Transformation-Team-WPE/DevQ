@@ -1,0 +1,29 @@
+﻿@model List<Dictionary<string, object>>
+
+@{
+    ViewBag.Title = "Project Data";
+}
+
+<h2>Project Table: @ViewBag.TableName</h2>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            @foreach (var col in Model.First().Keys)
+            {
+                <th>@col</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model)
+        {
+            <tr>
+                @foreach (var val in row.Values)
+                {
+                    <td>@val</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

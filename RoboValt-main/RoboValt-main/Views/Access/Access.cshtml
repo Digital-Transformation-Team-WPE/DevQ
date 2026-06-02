@@ -1,0 +1,172 @@
+﻿@model Robot_Program_Validation.ViewModels.AccessViewModel
+@{
+    Layout = null;
+}
+
+<head>
+    <title>Employee Access</title>
+    <link rel="stylesheet" href="~/css/Access.css" />
+</head>
+
+<div class="page-wrapper">
+    <div class="access-container">
+
+        <div class="access-title">Employee Access Management</div>
+        <div class="access-subtitle">Assign or revoke access for employees</div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="banner-success" class="message-success">@TempData["SuccessMessage"]</div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div id="banner-error" class="message-error">@TempData["ErrorMessage"]</div>
+        }
+
+        <form id="accessForm" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="radio-group">
+                <label><input type="radio" name="ActionType" value="New" /> New</label>
+                <label><input type="radio" name="ActionType" value="Existing" checked /> Existing</label>
+            </div>
+
+            <div class="form-group">
+                <label for="employeeName">Employee Name</label>
+                <input id="employeeName" name="EmployeeName" placeholder="Start typing a name..." autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label for="employeeId">Employee ID</label>
+                <input id="employeeId" name="EmployeeId" readonly placeholder="Auto-filled from selection" />
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="Role">
+                    <option value="">Select Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                </select>
+            </div>
+
+            <div class="button-row">
+                <button type="submit" class="btn assign-btn"
+                        formaction="@Url.Action("AssignAccess", "Access")">
+                    Assign Access
+                </button>
+
+                <button type="submit" class="btn revoke-btn"
+                        formaction="@Url.Action("RevokeAccess", "Access")">
+                    Revoke Access
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const form = document.getElementById('accessForm');
+            const nameInput = document.getElementById('employeeName');
+            const idInput = document.getElementById('employeeId');
+            const roleSelect = document.getElementById('role');
+            const radios = document.querySelectorAll('input[name="ActionType"]');
+
+            const successBanner = document.getElementById('banner-success');
+            const errorBanner = document.getElementById('banner-error');
+
+            // --- Helpers -------------------------------------------------------------
+
+            function clearValidation() {
+                // If you use jQuery Unobtrusive Validation, clear its messages.
+                if (window.$ && $.validator) {
+                    const $form = $(form);
+                    $form.validate().resetForm();
+                    $form.find('.input-validation-error').removeClass('input-validation-error');
+                }
+            }
+
+            function resetFields({ removeBanners = false } = {}) {
+                if (nameInput) nameInput.value = '';
+                if (idInput) idInput.value = '';
+                if (roleSelect) roleSelect.value = '';
+
+                if (removeBanners) {
+                    if (successBanner && successBanner.parentNode) successBanner.parentNode.removeChild(successBanner);
+                    if (errorBanner && errorBanner.parentNode) errorBanner.parentNode.removeChild(errorBanner);
+                }
+
+                clearValidation();
+            }
+
+            function toggleByMode(mode) {
+                // mode = "New" or "Existing"
+                if (!idInput) return;
+
+                if (mode === 'Existing') {
+                    idInput.readOnly = true;
+                    idInput.placeholder = "Auto-filled from selection";
+                } else {
+                    // If you auto-generate EmployeeId on server for New, keep readOnly true and placeholder hint.
+                    // If you want to allow manual input for New, set readOnly = false.
+                    idInput.readOnly = true; // safer: keep server-generated; change to false if you allow manual entry
+                    idInput.placeholder = "Will be generated/linked on save";
+                }
+            }
+
+            function onActionTypeChanged(e) {
+                const mode = e.target.value;
+                // Clear fields and on radio change we also remove any banners to avoid stale messages
+                resetFields({ removeBanners: true });
+                toggleByMode(mode);
+            }
+
+            // --- Wire events ---------------------------------------------------------
+
+            // When radio changes, clear all inputs and banners
+            radios.forEach(r => r.addEventListener('change', onActionTypeChanged));
+
+            // On initial load, set input states by the current radio
+            const checked = document.querySelector('input[name="ActionType"]:checked');
+            if (checked) toggleByMode(checked.value);
+
+            // --- After POST-Redirect (operation completed): auto-clear fields --------
+            // If we have a TempData banner present, it means an operation just completed.
+            // We clear the inputs immediately so the form is fresh for the next operation,
+            // but keep the banner visible for a few seconds.
+            const opCompleted = !!(successBanner || errorBanner);
+            if (opCompleted) {
+                resetFields({ removeBanners: false });
+
+                // Optional: auto-hide banners after a few seconds
+                const autoHide = (el) => {
+                    if (!el) return;
+                    setTimeout(() => {
+                        // fade-out effect (optional)
+                        el.style.transition = 'opacity 400ms ease';
+                        el.style.opacity = '0';
+                        setTimeout(() => {
+                            if (el && el.parentNode) el.parentNode.removeChild(el);
+                        }, 450);
+                    }, 3500); // show ~3.5s then fade
+                };
+
+                autoHide(successBanner);
+                autoHide(errorBanner);
+            }
+
+            // --- Optional: disable buttons while submitting to prevent double-submit --
+            form.addEventListener('submit', function () {
+                const buttons = form.querySelectorAll('button[type="submit"]');
+                buttons.forEach(b => b.disabled = true);
+                // Let the server do PRG; buttons will be re-enabled on reload.
+            });
+        })();
+    </script>
+
+}

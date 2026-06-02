@@ -1,0 +1,41 @@
+﻿@model Robot_Program_Validation.EntityModels.EmployeeTable
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot Program Validation</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="login-header">
+            <img src="~/images/digital-transformation.png" alt="Digital Transformation" />
+            <img src="~/images/stellantis-logo.jpg" alt="Stellantis" />
+        </div>
+        <div class="login-body">
+            <!-- Robot -->
+            <div class="left-panel">
+               
+                <img src="~/images/Robotimage.png" alt="Robotimage" />
+            </div>
+            <!-- Login -->
+            <div class="right-panel">
+                <h2>Robot Program Validation</h2>
+                <p>Login to continue</p>
+                <form asp-controller="Login" asp-action="CheckLoginpage">                   
+                    <input type="text" name="employeeId"  autocomplete="off" placeholder="Employee ID" required asp-for="Name">
+                    <button type="submit">Login</button>
+                </form>
+                @if (ViewBag.Error != null)
+                {
+                    <div class="error">@ViewBag.Error</div>
+                }
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

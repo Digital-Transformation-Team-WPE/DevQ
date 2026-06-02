@@ -1,0 +1,457 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    .content-wrapper {
+        width: 100%;
+    }
+
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 420px auto;
+        gap: 30px;
+    }
+
+    .left-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+        .row label {
+            width: 120px;
+            font-weight: 600;
+        }
+
+    .input-control {
+        width: 260px;
+        padding: 8px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 20px;
+    }
+
+    .button-row {
+        display: flex;
+        gap: 12px;
+        margin-left: 120px;
+        margin-top: 10px;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        font-size: 14px;
+    }
+
+    .btn-create {
+        background: #007bff;
+    }
+
+    .btn-view {
+        background: #6c757d;
+    }
+
+    .graph-container {
+        margin-top: auto;
+        height: 320px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background: white;
+    }
+
+    .right-panel {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .right-panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+    .table-wrapper {
+        height: 320px;
+        overflow-y: auto;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background: white;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    th {
+        background: #f2f2f2;
+        font-weight: 600;
+    }
+
+    tr:hover td {
+        background: #f7f7ff;
+    }
+
+    .eye-icon {
+        cursor: pointer;
+        color: #007bff;
+        font-size: 18px;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="grid-layout">
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+
+            <form id="projectForm" method="post">
+
+                <!-- PROJECT TYPE -->
+                <div class="row">
+                    <label>Project Type</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="projectType" value="new" checked> New</label>
+                        <label><input type="radio" name="projectType" value="existing"> Existing</label>
+                    </div>
+                </div>
+
+                <!-- PROJECT -->
+                <div class="row">
+                    <label>Project</label>
+
+                    <!-- NEW MODE: text input -->
+                    <input type="text"
+                           id="projectText"
+                           name="projectText"
+                           class="input-control"
+                           placeholder="Enter project" autocomplete="off" />
+
+                    <!-- EXISTING MODE: dropdown -->
+                    <select id="projectSelect"
+                            name="projectSelect"
+                            class="input-control"
+                            style="display:none;">
+                        <option value="">Select project</option>
+                    </select>
+                </div>
+
+                <!-- REVISION -->
+                <div class="row">
+                    <label>Revision</label>
+
+                    <!-- NEW MODE textbox -->
+                    <input type="text"
+                           id="revisionText"
+                           name="revision"
+                           class="input-control"
+                           readonly
+                           value="Auto" />
+
+                    <!-- EXISTING MODE dropdown -->
+                    <select id="revisionSelect"
+                            name="revision"
+                            class="input-control"
+                            style="display:none;">
+                        <option value="">Select revision</option>
+                    </select>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="button-row">
+                    <button type="submit" class="btn btn-create" formaction="/Home/CreateProject">Create</button>
+                    <button type="submit" class="btn btn-view" formaction="/Home/ViewProject">View</button>
+                </div>
+
+            </form>
+
+            <!-- GRAPH -->
+            <div class="graph-container">
+                <h4>Graph</h4>
+                <canvas id="statusChart"></canvas>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+
+            <h3>Existing Projects</h3>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Revision</th>
+                            <th>Created On</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="projectsTableBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Chart.js (must be loaded BEFORE using new Chart(...)) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Global namespace for Home page
+    window.HomePage = {
+        init: function () {
+            console.log("HomePage.init()");
+
+            this.cacheDom();
+            this.bindEvents();
+            this.toggleMode();        // set initial state
+            this.loadProjectsTable(); // fill table
+
+            // Load graph after DOM is ready
+            this.loadGraph();
+        },
+
+        cacheDom: function () {
+            this.projectText    = document.getElementById("projectText");
+            this.projectSelect  = document.getElementById("projectSelect");
+            this.revisionText   = document.getElementById("revisionText");
+            this.revisionSelect = document.getElementById("revisionSelect");
+        },
+
+        bindEvents: function () {
+            const self = this;
+
+            // Toggle between New / Existing
+            document.querySelectorAll("input[name='projectType']")
+                .forEach(function (rb) {
+                    rb.addEventListener("change", function () {
+                        self.toggleMode();
+                    });
+                });
+
+            // Auto revision for new project
+            if (this.projectText) {
+                let timer;
+                this.projectText.addEventListener("input", function () {
+                    clearTimeout(timer);
+
+                    const name = self.projectText.value.trim();
+                    if (!name) {
+                        self.revisionText.value = "Auto";
+                        return;
+                    }
+
+                    timer = setTimeout(async function () {
+                        try {
+                            const res = await fetch(`/Home/GetNextRevision?projectName=${encodeURIComponent(name)}`);
+                            const rev = await res.json();
+                            self.revisionText.value = rev;
+                        } catch (e) {
+                            console.error("GetNextRevision error:", e);
+                            self.revisionText.value = "Auto";
+                        }
+                    }, 250);
+                });
+            }
+
+            // Revisions for existing project
+            if (this.projectSelect) {
+                this.projectSelect.addEventListener("change", function () {
+                    self.onProjectChanged();
+                });
+            }
+        },
+
+        toggleMode: function () {
+            const isNew = document.querySelector("input[name='projectType']:checked").value === "new";
+
+            if (isNew) {
+                // New project → text input, auto revision
+                this.projectText.style.display   = "block";
+                this.projectSelect.style.display = "none";
+
+                this.revisionText.style.display   = "block";
+                this.revisionSelect.style.display = "none";
+
+                this.revisionText.disabled  = false;
+                this.revisionSelect.disabled = true;
+
+                this.revisionText.value = "Auto";
+            } else {
+                // Existing project → dropdown + revisions from server
+                this.projectText.style.display   = "none";
+                this.projectSelect.style.display = "block";
+
+                this.revisionText.style.display   = "none";
+                this.revisionSelect.style.display = "none";
+
+                this.revisionText.disabled  = true;
+                this.revisionSelect.disabled = true;
+
+                this.loadProjects(); // load project list from server
+            }
+        },
+
+        // Load project list for "Existing" mode
+        loadProjects: function () {
+            const self = this;
+
+            fetch('/Home/GetProjects')
+                .then(r => r.json())
+                .then(function (list) {
+                    self.projectSelect.innerHTML = `<option value="">Select project</option>`;
+                    list.forEach(function (p) {
+                        self.projectSelect.innerHTML += `<option value="${p}">${p}</option>`;
+                    });
+                })
+                .catch(function (err) {
+                    console.error("GetProjects error:", err);
+                });
+        },
+
+        // When existing project is selected, load revisions
+        onProjectChanged: function () {
+            const self = this;
+            const project = this.projectSelect.value;
+
+            this.revisionText.value = "";
+            this.revisionSelect.innerHTML = `<option value="">Select revision</option>`;
+
+            this.revisionText.style.display   = "none";
+            this.revisionSelect.style.display = "none";
+
+            this.revisionText.disabled  = true;
+            this.revisionSelect.disabled = true;
+
+            if (!project) return;
+
+            fetch(`/Home/GetRevisions?projectName=${encodeURIComponent(project)}`)
+                .then(r => r.json())
+                .then(function (list) {
+                    if (!Array.isArray(list) || list.length === 0) return;
+
+                    if (list.length === 1) {
+                        // Single revision → show in textbox
+                        self.revisionText.style.display   = "block";
+                        self.revisionSelect.style.display = "none";
+
+                        self.revisionText.disabled = false;
+                        self.revisionText.value    = list[0];
+                    } else {
+                        // Multiple revisions → dropdown
+                        self.revisionText.style.display   = "none";
+                        self.revisionSelect.style.display = "block";
+
+                        self.revisionSelect.disabled = false;
+
+                        list.forEach(function (rev) {
+                            self.revisionSelect.innerHTML += `<option value="${rev}">${rev}</option>`;
+                        });
+                    }
+                })
+                .catch(function (err) {
+                    console.error("GetRevisions error:", err);
+                });
+        },
+
+        // Load existing projects table
+        loadProjectsTable: function () {
+            fetch('/Home/GetProjectTableData')
+                .then(r => r.json())
+                .then(function (rows) {
+                    const body = document.getElementById("projectsTableBody");
+                    if (!body) return;
+
+                    body.innerHTML = "";
+
+                    rows.forEach(function (row) {
+                        body.innerHTML += `
+                            <tr>
+                                <td>${row.project}</td>
+                                <td>${row.revision}</td>
+                                <td>${new Date(row.createdOn).toLocaleDateString()}</td>
+                                <td>${row.createdBy}</td>
+                                <td><span class="eye-icon">👁️</span></td>
+                            </tr>`;
+                    });
+                })
+                .catch(function (err) {
+                    console.error("GetProjectTableData error:", err);
+                });
+        },
+
+        // Load graph data and draw Chart.js bar chart
+        loadGraph: function () {
+            const self = this;
+
+            fetch('/Home/GetProjectRevisionGraph')
+                .then(r => r.json())
+                .then(function (data) {
+                    const canvas = document.getElementById("statusChart");
+                    if (!canvas) return;
+
+                    const labels = data.map(x => x.label);
+                    const values = data.map(x => x.count);
+
+                    // Destroy previous chart if exists
+                    if (window.chartInstance) {
+                        window.chartInstance.destroy();
+                    }
+
+                    const ctx = canvas.getContext("2d");
+
+                    window.chartInstance = new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: values,
+                                backgroundColor: "#4B9CFF"
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true } }
+                        }
+                    });
+                })
+                .catch(function (err) {
+                    console.error("GetProjectRevisionGraph error:", err);
+                });
+        }
+    };
+
+    // This runs when Home.cshtml is inserted into the DOM (via loadPage)
+    window.HomePage.init();
+</script>

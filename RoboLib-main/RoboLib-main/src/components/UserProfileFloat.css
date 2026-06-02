@@ -1,0 +1,94 @@
+.user-profile-float {
+  position: fixed;
+  top: 1%;
+  left: 6.05%;
+  background-color: #233682;
+  color: white;
+  padding: 4px 3px 4px 0px;
+  border-radius: 4px 4px 4px 0px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap; 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.profile-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-item {
+  /* display: flex; */
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  color: #8b8282;
+  text-transform: capitalize;
+}
+
+.profile-label {
+  color: #cdcdcd;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.profile-value {
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.profile-divider {
+  opacity: 0.4;
+  margin: 0 2px;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .user-profile-float {
+    top: 1.5%;
+    left: 5.2%;
+    padding: 8px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .profile-content {
+    gap: 6px;
+  }
+
+  .profile-item {
+    gap: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-profile-float {
+    top: 1.5%;
+    left: 4.7%;
+    padding: 6px 10px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .profile-label {
+    display: none;
+  }
+
+  .profile-divider {
+    display: none;
+  }
+
+  .profile-content {
+    gap: 8px;
+  }
+}

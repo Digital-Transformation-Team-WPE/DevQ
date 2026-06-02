@@ -1,0 +1,1098 @@
+Table Container Styles
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: #b1cae1;
+  /* background: #243782; */
+  padding: 0.7rem;
+  gap: 0.75rem;
+  height: 100%;
+  position: relative;
+}
+/* Force white text for all inputs/elements inside row 13 cells */
+.data-cell.highlight-row-13 .cell-input,
+.data-cell.highlight-row-13 input,
+.data-cell.highlight-row-13 select,
+.data-cell.highlight-row-13 div,
+.data-row:nth-child(13) .data-cell .cell-input,
+.data-row:nth-child(13) .data-cell input,
+.data-row:nth-child(13) .data-cell select,
+.data-row:nth-child(13) .data-cell div,
+.data-row:nth-child(13) .row-number-cell {
+  color: white !important;
+}
+
+
+/* Excel Table Container - for frozen columns */
+.excel-table-container {
+  display: flex;
+  flex: 1;
+  background-color: #f5f5f5;
+  border: 1px solid #d1d5db;
+  border-radius: 5px 15px 15px 5px ;
+  min-width: 0;
+  height: 100%;
+  overflow: clip;
+  margin-top: 0%;
+  margin-left: 4.7%;
+  margin-right: 15%;
+}
+
+/* Viewer mode - no margin for toolbar */
+.excel-table-container.viewer-mode {
+  margin-left: 0;
+}
+
+/* Frozen Section */
+.frozen-section {
+  flex-shrink: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  z-index: 5;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: relative;
+  border-radius: 8px 0 0 8px;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
+/* Hide scrollbar on frozen section while keeping scroll functionality */
+.frozen-section::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.frozen-section .excel-table {
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+/* Scrollable Section */
+.scrollable-section {
+  flex: 1;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  position: relative;
+  border-radius: 0 8px 8px 0;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.scrollable-section .excel-table {
+  display: inline-table;
+  table-layout: fixed;
+  width: max-content;
+  height: 100%;
+  margin: 0;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.frozen-table,
+.scrollable-table {
+  background-color: #f5f5f5;
+}
+
+/* Border between frozen (col I) and scrollable (col J) sections */
+.frozen-table thead tr th:last-child,
+.frozen-table tbody tr td:last-child {
+  border-right: 0px solid black !important;
+}
+
+.scrollable-section {
+  border-left: 0.5px solid black;
+}
+
+/* Sync header heights */
+.frozen-section thead tr,
+.scrollable-section thead tr {
+  height: 28px;
+}
+
+/* Excel Table Styles */
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background-color: #f5f5f5;
+  table-layout: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+/* Force consistent table behavior for synchronization */
+.frozen-table,
+.scrollable-table {
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+}
+.header-row {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, #efefef 0%, #e8e8e8 100%);
+  box-shadow: inset 0 -0.5px 0 black;
+  height: 28px;
+  display: table-row;
+  box-sizing: border-box;
+}
+
+.row-header-cell {
+  width: 50px;
+  height: 28px;
+  padding: 0;
+  background-color: #f2f4fd;
+  /* border-right: 0.5px solid black; */
+  text-align: center;
+  vertical-align: middle;
+}
+
+.col-header-cell {
+  height: 28px;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 700;
+  color: #374151;
+  border-right: 0.5px solid black;
+  background-color: #f2f4fd;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: table-cell;
+}
+
+/* Remove border-right for frozen columns (A-I) */
+.frozen-table .col-header-cell {
+  border-right: none;
+}
+
+.data-cell {
+  height: 32px;
+  padding: 0;
+  border-right: 0.5px solid black;
+  vertical-align: middle;
+  position: relative;
+  overflow: hidden;
+  background-clip: padding-box;
+  box-sizing: border-box;
+  clip-path: inset(0);
+  font-size: 10px;
+  text-align: center;
+  box-shadow: inset 0 -0.5px 0 black;
+  display: table-cell;
+  margin: 0;
+}
+
+/* Smart View mode - increase data cell height */
+.excel-table-container.smart-view-enabled .data-cell {
+  height: 42px;
+}
+
+/* Allow focus outline to show for colored cells */
+.data-cell:has(.cell-input.colored-cell:focus) {
+  overflow: visible;
+  clip-path: unset;
+}
+
+/* Hide borders for hidden cells in Smart View */
+.data-cell.hide-border {
+  border-right: none !important;
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.data-cell:last-child {
+  border-right: none;
+}
+
+.data-cell.highlight-row-13 {
+  background-color: #243782;
+  font-weight: 700;
+  color: white !important;
+}
+
+
+.data-cell.white-cell-no-border {
+  background-color: #e0e0e0;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Add a vertical black border between SN and A column */
+.data-cell.sn-a-border {
+  border-left: 2px solid #000;
+}
+
+.data-cell.grey-cell-after-col-i-row-13 {
+  background-color: #ecebeb;
+}
+
+/* Pure white cells with no borders for A1:H12 (rows 0-11, columns 0-7) */
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="0"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="1"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="2"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="3"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="4"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="5"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="6"],
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .data-cell[data-col="7"] {
+  background-color: rgb(219, 219, 219) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+ 
+/* Selection Styling */
+.data-row.selected {
+  background-color: #b3d9ff !important;
+}
+
+.data-row.selected:hover {
+  background-color: #9ecbff !important;
+}
+
+.data-row:hover:not(.selected) {
+  background-color: #e8f0ff;
+}
+
+.data-cell.selected {
+  background-color: #b3d9ff !important;
+}
+
+.col-header-cell.selected {
+  background-color: #b3d9ff;
+}
+
+.row-number-cell.selected {
+  background-color: #b3d9ff;
+}
+
+.data-cell.highlight-col-i {
+  background-color: #243782;
+  border-right: 1px solid #000000 !important;
+  position: relative;
+  z-index: 3;
+}
+
+
+.data-cell.highlight-col-i-0 {
+    background-color: #cacae1;
+
+}
+
+.data-cell.highlight-col-i-1 {
+  background-color: #cacae1;
+}
+
+.data-cell.highlight-col-i-2 {
+  background-color: #cacae1;
+}
+
+.data-cell.highlight-col-i-3 {
+  background-color: #cacae1;
+}
+
+.data-cell.highlight-col-i-4 {
+    background-color: #cacae1;
+
+}
+
+.data-cell.highlight-col-i-5 {
+  background-color: #f2c67c;
+}
+
+.data-cell.highlight-col-i-6 {
+  background-color: #5ebdb3;
+}
+
+.data-cell.highlight-col-i-7 {
+  background-color: #aae6e0;
+}
+
+.data-cell.highlight-col-i-8 {
+  background-color: #fffacd;
+}
+
+.data-cell.highlight-col-i-9 {
+  background-color: #d85b5b;
+}
+
+.data-cell.highlight-col-i-10 {
+  background-color: #ffcccb;
+}
+
+.data-cell.highlight-col-i-11 {
+  background-color: #34b479;
+}
+
+.data-cell.highlight-col-i-12 {
+  background-color: #1396c2;
+}
+
+/* Add left border to first cell (column J) in scrollable section for rows 1-13 */
+.scrollable-section tbody tr:nth-child(-n+13) td:first-child {
+  /* border-left: 3px solid #000000 !important; */
+}
+
+.row-number-cell.highlight-row-13 {
+  background-color: #e8e8e8;
+  font-weight: 700;
+}
+
+/* SN column styling for rows 1-12 */
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+13) .row-number-cell {
+  border: none !important;
+  box-shadow: none !important;
+}
+.frozen-table tbody tr:nth-child(n+1):nth-child(-n+12) .row-number-cell {
+  background-color: rgb(219, 219, 219) !important;
+}
+
+.col-header-cell:last-child {
+  border-right: none;
+}
+
+.col-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.col-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  cursor: col-resize;
+  background-color: transparent;
+  transition: background-color 0.15s ease;
+}
+
+.col-resize-handle:hover {
+  background-color: #3b82f6;
+}
+
+.col-resize-handle:active { 
+  background-color: #1d4ed8;
+}
+
+/* Data Row */
+.data-row {
+  transition: background-color 0.1s ease;
+  height: 32px;
+  display: table-row;
+  box-sizing: border-box;
+}
+
+/* Ensure tbody rows have consistent height */
+.frozen-table tbody tr,
+.scrollable-table tbody tr {
+  height: 32px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Force hidden rows in smart view to not affect height calculation */
+.frozen-section tbody tr[style*="display: none"],
+.scrollable-section tbody tr[style*="display: none"] {
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  visibility: collapse;
+}
+
+/* Ensure visible rows have exact matching heights in both sections for smart view */
+.frozen-table tbody tr:not([style*="display: none"]),
+.scrollable-table tbody tr:not([style*="display: none"]) {
+  height: 32px;
+  min-height: 32px;
+}
+
+/* Align cells in both sections exactly - remove any gaps */
+.frozen-table td,
+.scrollable-table td {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sticky-row-13 {
+  position: sticky;
+  z-index: 10;
+  border-bottom: none;
+}
+
+.data-row.sticky-row-13:nth-child(1) {
+  top: 28px;
+}
+
+.data-row.sticky-row-13:nth-child(2) {
+  top: 60px;
+}
+
+.data-row.sticky-row-13:nth-child(3) {
+  top: 92px;
+}
+
+.data-row.sticky-row-13:nth-child(4) {
+  top: 124px;
+}
+
+.data-row.sticky-row-13:nth-child(5) {
+  top: 156px;
+}
+
+.data-row.sticky-row-13:nth-child(6) {
+  top: 188px;
+}
+
+.data-row.sticky-row-13:nth-child(7) {
+  top: 220px;
+}
+
+.data-row.sticky-row-13:nth-child(8) {
+  top: 252px;
+}
+
+.data-row.sticky-row-13:nth-child(9) {
+  top: 284px;
+}
+
+.data-row.sticky-row-13:nth-child(10) {
+  top: 316px;
+}
+
+.data-row.sticky-row-13:nth-child(11) {
+  top: 348px;
+}
+
+.data-row.sticky-row-13:nth-child(12) {
+  top: 380px;
+}
+
+.data-row.sticky-row-13:nth-child(13) {
+  top: 412px;
+}
+
+/* Row 13 height adjustment for multiline header */
+.frozen-section .data-row:nth-child(13),
+.scrollable-section .data-row:nth-child(13),
+.data-row.sticky-row-13:nth-child(13) {
+  height: 63px !important;
+  min-height: 63px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.frozen-section .data-row:nth-child(13) .data-cell,
+.scrollable-section .data-row:nth-child(13) .data-cell,
+.data-row.sticky-row-13:nth-child(13) .data-cell {
+  height: 63px !important;
+  min-height: 63px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.data-row {
+  background-color: #ffffff;
+}
+
+.data-row:hover {
+  background-color: #f0f0f0;
+}
+
+.data-row.hovered {
+  background-color: #f0f0f0;
+}
+
+.data-row:nth-child(even) {
+  background-color: #d4ddff;
+}
+
+.data-row:nth-child(even):hover {
+  background-color: #e8e8e8;
+}
+
+/* Row 13 only - Full row blue background */
+.data-row:nth-child(13) {
+  background-color: #243782 !important;
+}
+
+.data-row:nth-child(13) .data-cell {
+  background-color: #243782 !important;
+}
+
+.data-row:nth-child(13) .row-number-cell {
+  background-color: #243782 !important;
+}
+
+/* Row Number Cell */
+.row-number-cell {
+  width: 50px;
+  height: 32px;
+  padding: 0;
+  background-color: #f2f4fd;
+  border-right: 1px solid #9e9e9e;
+  /* border-top: 0.5px solid #000000;*/
+  /* border-bottom: 0.5px solid #000000; */
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 600;
+  color: #000000;
+  font-size: 12px;
+  cursor: default;
+}
+
+
+/* Data Cell */
+
+
+.data-cell:last-child {
+  border-right: none;
+}
+
+/* Cell Input */
+.cell-input {
+  width: 95%;
+  left: 2%;
+  top: 2%;
+  height: 85%;
+  padding: 0 8px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #1f2937;
+  font-family: inherit;
+  background-color: transparent;
+  /* transition: all 0.1s ease; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cell-input:focus {
+  outline: none;
+}
+
+.date-cell-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-display {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1f2937;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 2;
+  text-align: center;
+}
+
+.date-input {
+  cursor: pointer;
+  color: #1f2937;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+/* Improve native date picker scroll performance */
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 4px;
+  opacity: 0.6;
+  filter: invert(0.3);
+}
+
+/* Override any transforms that could affect native date picker popup */
+.date-cell-wrapper:focus-within {
+  transform: none !important;
+  will-change: auto !important;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.date-input::placeholder {
+  color: transparent;
+}
+
+.date-input::-webkit-datetime-edit {
+  color: transparent;
+  background-color: transparent;
+}
+
+.date-input::-webkit-datetime-edit-fields-wrapper {
+  background: transparent;
+}
+
+.date-input::-webkit-datetime-edit-text {
+  color: transparent;
+}
+
+.date-input:focus::-webkit-datetime-edit {
+  color: #1f2937;
+  background-color: white;
+}
+
+.date-input:focus::-webkit-datetime-edit-fields-wrapper {
+  color: #1f2937;
+  background-color: white;
+}
+
+.date-input:focus::-webkit-datetime-edit-text {
+  color: #1f2937;
+}
+
+/* Show date display text when empty */
+.date-display {
+  display: block;
+}
+
+.date-input:focus {
+  background-color: white;
+}
+
+/* Dropdown Input */
+.dropdown-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/csvg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 28px !important;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Colored cell input - fill entire cell */
+.cell-input.colored-cell,
+.date-cell-wrapper.colored-cell {
+  width: 100% !important;
+  height: 98% !important;
+  left: 0 !important;
+  top: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Focus state for colored cells - use outline for visibility */
+.cell-input.colored-cell:focus {
+  outline: 3px solid #0066ff !important;
+  border: none !important;
+}
+
+.dropdown-input option {
+  color: #1f2937;
+  background-color: #ffffff;
+  padding: 4px 8px;
+}
+
+.dropdown-input:focus {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/csvg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  background-color: #d1d4d7;
+  box-shadow: inset 0 0 0 2px #3b82f6;
+}
+
+/* Responsive Design */
+/* Large Displays - 1440px and up */
+@media (max-width: 1440px) {
+  .table-wrapper {
+    padding: 0.75rem;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 100px;
+  }
+
+  .cell-input {
+    padding: 0 6px;
+    font-size: 11px;
+  }
+}
+
+/* Medium Displays - 1024px to 1439px */
+@media (max-width: 1024px) {
+  .table-wrapper {
+    padding: 0.75rem;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 90px;
+  }
+
+  .row-header-cell,
+  .row-number-cell {
+    width: 48px;
+  }
+
+  .cell-input {
+    padding: 0 6px;
+    font-size: 11px;
+  }
+
+  .excel-table {
+    font-size: 11px;
+    
+  }
+}
+
+/* Tablet (Landscape) - 769px to 1023px */
+@media (max-width: 1023px) and (min-width: 769px) {
+  .table-wrapper {
+    padding: 0.6rem;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 80px;
+  }
+
+  .row-header-cell,
+  .row-number-cell {
+    width: 44px;
+    font-size: 11px;
+  }
+
+  .cell-input {
+    padding: 0 5px;
+    font-size: 11px;
+    
+  }
+
+  .excel-table {
+    font-size: 11px;
+  }
+
+  .header-row {
+    height: 28px;
+  }
+}
+
+/* Tablet (Portrait) - 601px to 768px */
+@media (max-width: 768px) and (min-width: 601px) {
+  .table-wrapper {
+    padding: 0.5rem;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 75px;
+  }
+
+  .row-header-cell,
+  .row-number-cell {
+    width: 40px;
+  }
+
+  .cell-input {
+    padding: 0 5px;
+    font-size: 11px;
+  }
+
+  .col-header-cell,
+  .row-number-cell {
+    font-size: 11px;
+  }
+
+  .excel-table {
+    font-size: 11px;
+  }
+
+  .header-row {
+    height: 26px;
+  }
+
+  .frozen-section thead tr {
+    height: 26px;
+  }
+}
+
+/* Mobile Large - 481px to 600px */
+@media (max-width: 600px) and (min-width: 481px) {
+  .table-wrapper {
+    padding: 0.5rem;
+    gap: 0.5rem;
+    margin-top: 130px;
+  }
+
+  .excel-table-container {
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  .excel-table {
+    font-size: 10px;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 65px;
+  }
+
+  .row-header-cell,
+  .row-number-cell {
+    width: 38px;
+    font-size: 10px;
+  }
+
+  .cell-input {
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .header-row {
+    height: 24px;
+  }
+
+  .frozen-section thead tr {
+    height: 24px;
+  }
+
+  .data-row {
+    height: 28px;
+  }
+
+  .col-header-cell {
+    height: 24px;
+  }
+
+  .row-header-cell {
+    height: 24px;
+  }
+}
+
+/* Mobile Standard - 361px to 480px */
+@media (max-width: 480px) and (min-width: 361px) {
+  .table-wrapper {
+    padding: 0.5rem;
+    gap: 0.5rem;
+    margin-top: 120px;
+  }
+
+  .excel-table-container {
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  .excel-table {
+    font-size: 10px;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 60px;
+  }
+
+  .row-header-cell,
+  .row-number-cell {
+    width: 35px;
+  }
+
+  .cell-input {
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .col-header-cell,
+  .row-number-cell {
+    font-size: 10px;
+    height: 24px;
+  }
+
+  .row-header-cell {
+    height: 24px;
+  }
+
+  .header-row {
+    height: 24px;
+  }
+
+  .frozen-section thead tr {
+    height: 24px;
+  }
+
+  .data-row {
+    height: 28px;
+  }
+
+  .col-resize-handle {
+    width: 3px;
+  }
+}
+
+/* Mobile Small - up to 360px */
+@media (max-width: 360px) {
+  .table-wrapper {
+    padding: 0.4rem;
+    gap: 0.4rem;
+    margin-top: 110px;
+  }
+
+  .excel-table-container {
+    margin-left: 0;
+    margin-top: 0;
+    border: 1px solid #ccc;
+  }
+
+  .excel-table {
+    font-size: 9px;
+  }
+
+  .col-header-cell,
+  .data-cell {
+    width: 55px;
+  }
+
+  .row-header-cell,
+  .row-number-cell {
+    width: 32px;
+    font-size: 8px;
+    
+  }
+
+  .cell-input {
+    padding: 0 3px;
+    font-size: 9px;
+  }
+
+  .col-header-cell,
+  .row-number-cell {
+    font-size: 8px;
+    height: 22px;
+  }
+
+  .row-header-cell {
+    height: 22px;
+  }
+
+  .header-row {
+    height: 22px;
+  }
+
+  .frozen-section thead tr {
+    height: 22px;
+  }
+
+  .data-row {
+    height: 26px;
+  }
+
+  .col-header-content {
+    font-size: 8px;
+  }
+
+  .col-resize-handle {
+    width: 2px;
+  }
+
+  .frozen-section {
+    border-right: 1px solid #bebebe;
+  }
+}
+
+/* Context Menu Styles */
+.cell-context-menu {
+  background-color: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  min-width: 160px;
+}
+
+/* Smart View Alignment - Ensure perfect vertical synchronization */
+/* When rows are hidden (display: none in smart view), force them to collapse completely */
+.frozen-section tbody tr[style*="display: none"],
+.scrollable-section tbody tr[style*="display: none"] {
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  visibility: collapse !important;
+}
+
+/* Ensure visible rows in both sections have exact same height and spacing */
+.frozen-section tbody tr:not([style*="display: none"]),
+.scrollable-section tbody tr:not([style*="display: none"]) {
+  margin: 0;
+  padding: 0;
+}
+
+.context-menu-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+  transition: background-color 0.15s ease;
+  ;
+}
+
+.context-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+.context-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.context-menu-item:first-child {
+  border-radius: 4px 4px 0 0;
+}
+
+.context-menu-item:last-child {
+  border-radius: 0 0 4px 4px;
+}
+
+/* Single focus indicator - outline only */
+.cell-input:focus {
+  outline: 2px solid #1a73e8 !important;
+  outline-offset: -2px;
+}

@@ -1,0 +1,384 @@
+﻿@model List<Dictionary<string, object>>
+
+@{
+    var selectedDb = ViewBag.SelectedDb ?? "Master";
+    bool isMaster = selectedDb.ToString() == "Master";
+}
+
+@Html.AntiForgeryToken()
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Robot Program Validation</title>
+    <link rel="stylesheet" href="~/css/Database.css" />
+</head>
+<body>
+
+    <div id="pageContent">
+        <div class="data-card">
+
+            <!-- ================= CONTROL BAR ================= -->
+            <div class="control-bar">
+                <div class="left-controls">
+                    <label>
+                        <input type="radio" name="selectedDbRadio" value="Master" @(isMaster && ViewBag.SelectedDb?.ToString() != "Standard" ? "checked" : "") />
+                        <strong>Master DB</strong>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="selectedDbRadio" value="Program" @(!isMaster && ViewBag.SelectedDb?.ToString() != "Standard" ? "checked" : "") />
+                        <strong>Program DB</strong>
+                    </label>
+
+                    <label>
+                        <input type="radio" name="selectedDbRadio" value="Standard" @(ViewBag.SelectedDb?.ToString() == "Standard" ? "checked" : "") />
+                        <strong>Standard Table</strong>
+                    </label>
+
+                    @if (isMaster && ViewBag.SelectedDb?.ToString() != "Standard")
+                    {
+                        <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()" />
+                        <button type="button" class="btn-add">Add Point</button>
+                        <button type="button" class="btn-edit">Edit Point</button>
+                        <button type="button" class="btn-delete">Delete Point</button>
+                        <button type="button" class="btn-save">Save</button>
+                    }
+                    else if (!isMaster && ViewBag.SelectedDb?.ToString() != "Standard")
+                    {
+                        <select id="programTableSelect" style="width:250px;">
+                            <option value="">-- Select Table --</option>
+                        </select>
+                        <button type="button" class="btn-edit">Edit Point</button>
+                        <button type="button" class="btn-save">Save</button>
+                    }
+                    else if (ViewBag.SelectedDb?.ToString() == "Standard")
+                    {
+                        <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()" />
+                        <button type="button" class="btn-add">Add Point</button>
+                        <button type="button" class="btn-edit">Edit Point</button>
+                        <button type="button" class="btn-delete">Delete Point</button>
+                        <button type="button" class="btn-save">Save</button>
+                    }
+                </div>
+            </div>
+
+            <!-- ================= MASTER TABLE ================= -->
+            @if (isMaster && Model != null && Model.Any())
+            {
+                var columns = Model.First().Keys.ToList();
+                var hiddenColumns = new[] { "Id", "SNo", "CreatedDate", "UpdatedDate", "CreatedBy", "UpdatedBy" };
+                var visibleColumns = columns.Where(c => !hiddenColumns.Contains(c, StringComparer.OrdinalIgnoreCase)).ToList();
+
+                <div class="table-wrapper">
+                    <table id="dataTable" class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                @foreach (var col in visibleColumns)
+                                {
+                                    <th>@col</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in Model)
+                            {
+                                <tr>
+                                    <td><input type="radio" name="rowSelect" /></td>
+                                    @foreach (var col in visibleColumns)
+                                    {
+                                        <td contenteditable="false">@row[col]</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <!-- ================= PROGRAM TABLE ================= -->
+            @if (!isMaster && ViewBag.SelectedDb?.ToString() != "Standard")
+            {
+                <div class="table-wrapper">
+                    <div id="programTableContainer">
+                        <p style="padding:10px;">Please select a table.</p>
+                    </div>
+                </div>
+            }
+
+            <!-- ================= STANDARD TABLE ================= -->
+            @if (ViewBag.SelectedDb?.ToString() == "Standard" && Model != null && Model.Any())
+            {
+                var columns = Model.First().Keys.ToList();
+                var hiddenColumns = new[] { "Id", "SNo", "CreatedDate", "UpdatedDate", "CreatedBy", "UpdatedBy" };
+                var visibleColumns = columns.Where(c => !hiddenColumns.Contains(c, StringComparer.OrdinalIgnoreCase)).ToList();
+
+                <div class="table-wrapper">
+                    <table id="dataTable" class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                @foreach (var col in visibleColumns)
+                                {
+                                    <th>@col</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in Model)
+                            {
+                                <tr>
+                                    <td><input type="radio" name="rowSelect" /></td>
+                                    @foreach (var col in visibleColumns)
+                                    {
+                                        <td contenteditable="false">@row[col]</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <script>
+        let addMode = false;
+        let editMode = false;
+
+        function initDatabasePage() {
+            resetEditAddModes();
+            bindDbToggle();
+            bindActions();
+            bindProgramDropdown();
+
+            const programRadio = document.querySelector("input[value='Program']");
+            if (programRadio && programRadio.checked) loadProgramTables();
+        }
+
+        /* ================= RESET MODES WHEN SWITCHING DB ================= */
+        function resetEditAddModes() {
+            addMode = false;
+            editMode = false;
+            // Clear any remaining editable cells from previous state
+            document.querySelectorAll("table td[contenteditable='true']").forEach(td => {
+                td.contentEditable = false;
+                td.style.background = "";
+            });
+        }
+
+        /* ================= TOGGLE DB ================= */
+        function bindDbToggle() {
+            document.querySelectorAll("input[name='selectedDbRadio']").forEach(r => {
+                r.removeEventListener("change", handleDbChange);
+                r.addEventListener("change", handleDbChange);
+            });
+        }
+
+        function handleDbChange() {
+            fetch(`/Database/Database?selectedDb=${this.value}`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById("pageContent").innerHTML = html;
+                    initDatabasePage();
+                });
+        }
+
+        /* ================= BUTTON ACTIONS ================= */
+        function bindActions() {
+            const addBtn = document.querySelector(".btn-add");
+            const editBtn = document.querySelector(".btn-edit");
+            const deleteBtn = document.querySelector(".btn-delete");
+            const saveBtn = document.querySelector(".btn-save");
+
+            // Remove old listeners before adding new ones
+            if (addBtn) {
+                const newAddBtn = addBtn.cloneNode(true);
+                addBtn.parentNode.replaceChild(newAddBtn, addBtn);
+                newAddBtn.addEventListener("click", function() { toggleAddPoint(this); });
+            }
+            if (editBtn) {
+                const newEditBtn = editBtn.cloneNode(true);
+                editBtn.parentNode.replaceChild(newEditBtn, editBtn);
+                newEditBtn.addEventListener("click", function() { toggleEditPoint(this); });
+            }
+            if (deleteBtn) {
+                const newDeleteBtn = deleteBtn.cloneNode(true);
+                deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn);
+                newDeleteBtn.addEventListener("click", deleteSelectedRow);
+            }
+            if (saveBtn) {
+                const newSaveBtn = saveBtn.cloneNode(true);
+                saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+                newSaveBtn.addEventListener("click", saveData);
+            }
+        }
+
+        /* ================= ADD POINT ================= */
+        function toggleAddPoint(btn) {
+            const table = document.getElementById("dataTable");
+            if (!table || !btn) return;
+
+            addMode = !addMode;
+            btn.innerText = addMode ? "Exit Add Point" : "Add Point";
+            toggleButtonsDisabled(addMode, btn);
+
+            if (addMode) {
+                const row = table.insertRow();
+                row.insertCell().innerHTML = '<input type="radio" name="rowSelect" checked>';
+
+                for (let i = 1; i < table.rows[0].cells.length; i++) {
+                    const cell = row.insertCell();
+                    cell.contentEditable = true;
+                    cell.style.background = "#fff3cd";
+                    // First column (SNo/ID) - leave empty for SQL Server auto-increment
+                    if (i === 1) { cell.innerText = ""; cell.contentEditable = false; }
+                }
+                row.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+                document.querySelectorAll("#dataTable tbody tr").forEach(r => {
+                    r.querySelector("input[type='radio']").checked = false;
+                    r.querySelectorAll("td").forEach(td => { td.style.background = ""; td.contentEditable = false; });
+                });
+            }
+        }
+
+        /* ================= EDIT POINT ================= */
+        function toggleEditPoint(btn) {
+            // Get the currently visible table: Master or Program DB
+            const table = document.getElementById("dataTable") || document.querySelector("#programTableContainer table");
+            if (!table) {
+                alert("No table available to edit.");
+                return;
+            }
+
+            // Find the selected row via radio button
+            const selected = table.querySelector("input[name='rowSelect']:checked");
+            if (!selected) {
+                alert("Select a row first to edit.");
+                return;
+            }
+
+            editMode = !editMode;
+            btn.innerText = editMode ? "Exit Edit Point" : "Edit Point";
+            btn.style.background = editMode ? "#ffc107" : "";
+
+            // Disable other buttons while editing
+            toggleButtonsDisabled(editMode, btn);
+
+            const row = selected.closest("tr");
+            row.querySelectorAll("td").forEach((td, idx) => {
+                if (idx === 0) return; // skip the radio button column
+                td.contentEditable = editMode;
+                td.style.background = editMode ? "#fff3cd" : "";
+            });
+
+            // Optional: scroll selected row into view
+            if (editMode) row.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        /* ================= DISABLE OTHER BUTTONS ================= */
+        function toggleButtonsDisabled(active, activeBtn) {
+            document.querySelectorAll("button").forEach(b => { if (b !== activeBtn) b.disabled = active; });
+        }
+
+        /* ================= DELETE ROW ================= */
+        function deleteSelectedRow() {
+            const sel = document.querySelector("input[name='rowSelect']:checked") || document.querySelector("#programTableContainer input[name='rowSelect']:checked");
+            if (!sel) { alert("Select a row first to delete"); return; }
+            if (confirm("Are you sure you want to delete the selected row?")) sel.closest("tr").remove();
+        }
+
+        /* ================= SAVE DATA ================= */
+        function saveData() {
+            let tableName;
+            let table = document.getElementById("dataTable") || document.querySelector("#programTableContainer table");
+            if (!table) return alert("No table found to save.");
+
+            const selectedDb = document.querySelector("input[name='selectedDbRadio']:checked")?.value;
+
+            if (selectedDb === "Master") tableName = "MASTER DB";
+            else if (selectedDb === "Standard") tableName = "robo_standard_types";
+            else {
+                const ddl = document.getElementById("programTableSelect");
+                tableName = ddl?.value;
+                if (!tableName) return alert("Select a program table first.");
+            }
+
+            // Collect table rows (skip Select column)
+            const rows = [];
+            table.querySelectorAll("tbody tr").forEach(tr => {
+                const rowData = [];
+                tr.querySelectorAll("td").forEach((td, idx) => {
+                    if (idx === 0) return; // skip radio button
+                    rowData.push(td.innerText);
+                });
+                rows.push(rowData);
+            });
+
+            // Send to backend
+            fetch('/Database/SaveTable', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ TableName: tableName, Data: rows })
+            })
+            .then(res => res.json())
+            .then(resp => {
+                if (resp.success) alert(resp.message);
+                else alert("Error saving table: " + (resp.detail || resp.message));
+            })
+            .catch(err => alert("Error saving table: " + err));
+        }
+
+        /* ================= SEARCH ================= */
+        function filterTable() {
+            const q = document.getElementById("searchInput")?.value.toLowerCase();
+            document.querySelectorAll("#dataTable tbody tr").forEach(r => {
+                r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
+            });
+        }
+
+        /* ================= PROGRAM DB ================= */
+        function bindProgramDropdown() {
+            const ddl = document.getElementById("programTableSelect");
+            if (!ddl) return;
+
+            ddl.addEventListener("change", function () {
+                const tableName = this.value;
+                const container = document.getElementById("programTableContainer");
+                if (!tableName) {
+                    container.innerHTML = "<p style='padding:10px;'>Please select a table.</p>";
+                    return;
+                }
+
+                fetch(`/Database/LoadProgramTable?tableName=${encodeURIComponent(tableName)}`)
+                    .then(res => res.text())
+                    .then(html => {
+                        container.innerHTML = html;
+                        const table = container.querySelector("table");
+                        if (table) table.classList.add("custom-table");
+                        bindActions();
+                    });
+            });
+        }
+
+        function loadProgramTables() {
+            fetch('/Database/GetProgramTables')
+                .then(res => res.json())
+                .then(tables => {
+                    const ddl = document.getElementById("programTableSelect");
+                    if (!ddl) return;
+                    ddl.innerHTML = '<option value="">-- Select Table --</option>';
+                    tables.forEach(t => { ddl.innerHTML += `<option value="${t}">${t}</option>`; });
+                });
+        }
+
+        initDatabasePage();
+    </script>
+
+</body>
+</html>

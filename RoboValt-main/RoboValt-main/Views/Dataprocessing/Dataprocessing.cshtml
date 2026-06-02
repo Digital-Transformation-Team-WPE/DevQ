@@ -1,0 +1,698 @@
+﻿@{
+    ViewData["Title"] = "Data Processing";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"]</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+
+            --brand: #0d6efd;
+            --accent: #6d28d9;
+            --bg: #eef1f6;
+            --card: #ffffff;
+            --border: #dcdcdc;
+            --text: #1f2937;
+            --status-col-width: 80px;
+        }
+
+        html, body { height: 100%; }
+
+        body {
+            background: var(--bg);
+            font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, "Helvetica Neue", sans-serif;
+            color: var(--text);
+        }
+
+        /* ------------------------------------
+           Global Responsive Wrapper (2% gap)
+        --------------------------------------*/
+        .responsive-wrapper {
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+        }
+
+        .page-wrap {
+            min-height: 100vh;
+            padding-top: 2vh;
+            padding-bottom: 5vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .tool-card {
+            width: 96vw;
+            height: 94vh;
+            max-width: 96vw;
+            border-radius: 8px;
+            background: var(--card);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .tool-header {
+            background: var(--brand);
+            color: #fff;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 38px;
+            height: 38px;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(-2px);
+        }
+
+        .btn-back:active {
+            transform: translateX(0);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .tool-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #fff;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 13px;
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .meta-key { opacity: 0.88; }
+        .meta-val { font-weight: 700; }
+
+        .tool-body {
+            padding: 1rem;
+            height: calc(94vh - 70px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 0;
+        }
+
+        .btn-modern {
+            padding: 10px 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            transition: transform .06s ease, box-shadow .2s ease, filter .2s ease;
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+            filter: brightness(1.03);
+        }
+
+        .btn-modern:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .progress {
+            height: 18px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .table-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1 1 auto;
+            min-height: 0;
+        }
+
+        /* ---------------------------
+           TABLE RESPONSIVE + BEHAVIOR
+        ----------------------------*/
+        .table-container {
+            flex: 1 1 auto;
+            min-height: 0;
+            height: 100%;
+            max-height: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card);
+            width: 100%;
+            padding-right: 0;
+        }
+
+        .table {
+            table-layout: fixed !important;
+            width: 100%;
+            min-width: 100%;
+            margin: 0;
+        }
+
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background: var(--accent);
+            color: #fff;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .table th, .table td {
+            padding: 5px 5px;
+            line-height: 1;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            vertical-align: middle;
+        }
+
+        /* Hide these columns from the frontend table only */
+        #projectTableArea table th:nth-child(5),
+        #projectTableArea table td:nth-child(5),
+        #projectTableArea table th:nth-child(7),
+        #projectTableArea table td:nth-child(7),
+        #projectTableArea table th:nth-child(8),
+        #projectTableArea table td:nth-child(8),
+        #projectTableArea table th:nth-child(15),
+        #projectTableArea table td:nth-child(15) {
+            display: none !important;
+        }
+
+        /* Make the first columns compact and the descriptive columns wider */
+        #projectTableArea table th:nth-child(1),
+        #projectTableArea table td:nth-child(1) {
+            width: 48px !important;
+            min-width: 48px !important;
+            max-width: 48px !important;
+        }
+
+        #projectTableArea table th:nth-child(2),
+        #projectTableArea table td:nth-child(2) {
+            width: 90px !important;
+            min-width: 90px !important;
+            max-width: 90px !important;
+        }
+
+        #projectTableArea table th:nth-child(3),
+        #projectTableArea table td:nth-child(3) {
+            width: 90px !important;
+            min-width: 90px !important;
+            max-width: 90px !important;
+        }
+
+        #projectTableArea table th:nth-child(4),
+        #projectTableArea table td:nth-child(4) {
+            width: 70px !important;
+            min-width: 70px !important;
+            max-width: 70px !important;
+        }
+
+        #projectTableArea table th:nth-child(5),
+        #projectTableArea table td:nth-child(5) {
+            width: var(--status-col-width) !important;
+            min-width: var(--status-col-width) !important;
+            max-width: var(--status-col-width) !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            text-align: center;
+        }
+
+        #projectTableArea table th:nth-child(6),
+        #projectTableArea table td:nth-child(6) {
+            width: 260px !important;
+            min-width: 260px !important;
+            max-width: 260px !important;
+            white-space: normal !important;
+        }
+
+        #projectTableArea table th:nth-child(9),
+        #projectTableArea table td:nth-child(9),
+        #projectTableArea table th:nth-child(10),
+        #projectTableArea table td:nth-child(10),
+        #projectTableArea table th:nth-child(11),
+        #projectTableArea table td:nth-child(11) {
+            width: 150px !important;
+            min-width: 150px !important;
+            max-width: 150px !important;
+        }
+
+        /* Give the Logic column more room so it doesn't wrap into a narrow strip */
+        #projectTableArea table th:nth-child(12),
+        #projectTableArea table td:nth-child(12) {
+            width: 160px !important;
+            min-width: 160px !important;
+            max-width: 160px !important;
+            white-space: normal !important;
+        }
+
+        #projectTableArea table th:nth-child(13),
+        #projectTableArea table td:nth-child(13) {
+            width: 90px !important;
+            min-width: 90px !important;
+            max-width: 90px !important;
+            white-space: nowrap !important;
+        }
+
+        #projectTableArea table th:nth-child(14),
+        #projectTableArea table td:nth-child(14) {
+            width: 300px !important;
+            min-width: 300px !important;
+            max-width: 300px !important;
+            white-space: normal !important;
+        }
+
+        #projectTableArea table thead th {
+            white-space: normal;
+        }
+
+
+        /* Status coloring classes for cells with Y / G / R */
+        .status-yellow {
+            background-color: #ebee52 !important; /* Yellow */
+            color: #000000 !important;
+        }
+        .status-green {
+            background-color: #9fed8d !important; /* Green */
+            color: #000000 !important;
+        }
+        .status-red {
+            background-color: #f5616d !important; /* Red */
+            color: #000000 !important;
+        }
+
+        /* Show all data columns */
+        #projectTableArea table th:nth-child(7),
+        #projectTableArea table td:nth-child(7),
+        #projectTableArea table th:nth-child(8),
+        #projectTableArea table td:nth-child(8),
+        #projectTableArea table th:nth-child(9),
+        #projectTableArea table td:nth-child(9),
+        #projectTableArea table th:nth-child(12),
+        #projectTableArea table td:nth-child(12) {
+            display: table-cell;
+            width: auto;
+        }
+
+        .table tbody tr:hover { background: #f7f7f7; }
+
+        .table-container::-webkit-scrollbar { width: 9px; }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #bfbfbf;
+            border-radius: 5px;
+        }
+
+        .status-bar {
+            background: #f8f9fa;
+            border-top: 1px solid #e4e6eb;
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+ 
+        @@media (max-width: 768px) {
+            .tool-title { font-size: 16px; }
+            .tool-body { padding: 12px; }
+
+            /* Buttons stack cleanly */
+            #btnBrowseFolder, #btnProcessData { width: 100%; }
+
+            .table th, .table td {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            .table-container { max-height: 52vh; }
+        }
+
+        @@media (max-width: 576px) {
+            .tool-card { width: 100%; }
+            .tool-body { padding: 10px; }
+
+            .tool-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .meta-badge {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .table-container { max-height: 48vh; }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="page-wrap container-fluid responsive-wrapper">
+        <div class="card tool-card">
+
+            <!-- HEADER -->
+            <div class="tool-header">
+                <button id="btnGoBack" class="btn-back" title="Go back to previous page">🡰</button>
+                <div class="tool-title">⚙ Program Validation</div>
+                <span class="meta-badge">
+                    <span class="meta-key">Project:</span>
+                    <span class="meta-val">@ViewBag.Project</span>
+                </span>
+                <span class="meta-badge">
+                    <span class="meta-key">Revision:</span>
+                    <span class="meta-val">@ViewBag.Revision</span>
+                </span>
+            </div>
+
+            <div class="tool-body">
+
+                <!-- FORM (antiforgery + inputs; submit handled via JS with FormData) -->
+                <form id="processForm" asp-action="ProcessWithML" asp-controller="DataProcessing" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" id="Project" name="Project" value="@ViewBag.Project" />
+                    <input type="hidden" id="Revision" name="Revision" value="@ViewBag.Revision" />
+                    <input type="hidden" id="FolderPath" name="FolderPath" value="" />
+                    <input type="hidden" id="TableName" name="TableName" value="@ViewBag.Project_@ViewBag.Revision" />
+                    <input type="hidden" id="TableJson" name="TableJson" value="" />
+
+                    <div class="mb-2">
+                        <label class="form-label fw-semibold mb-1">Select Folder</label>
+                        <div class="row g-2">
+                            <div class="col-lg-8 col-md-12">
+                                <input type="text" id="folderPath" class="form-control" placeholder="Choose a folder..." readonly />
+                            </div>
+
+                            <div class="col-lg-2 col-md-6 col-12 d-grid">
+                                <!-- Folder/file picker -->
+                                <input id="filePicker"
+                                       name="Files"
+                                       type="file"
+                                       multiple
+                                       webkitdirectory
+                                       class="d-none" />
+                                <button type="button" id="btnBrowseFolder" class="btn btn-primary btn-modern">Browse</button>
+                            </div>
+
+                            <div class="col-lg-2 col-md-6 col-12 d-grid">
+                                <button type="button" id="btnProcessData" class="btn btn-success btn-modern">
+                                    <span class="process-text">▶ Process</span>
+                                    <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="progress" id="progressBar">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%"></div>
+                </div>
+
+                <div class="table-section">
+                    <h5 class="mb-2">Project Table</h5>
+                    <div id="projectTableArea" class="table-container">
+                        Loading table...
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- STATUS -->
+            <div class="status-bar">
+                <span id="statusText">Ready</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const project = '@ViewBag.Project';
+            const revision = '@ViewBag.Revision';
+
+            const statusEl = document.getElementById("statusText");
+            const progressEl = document.getElementById("progressBar");
+            const btnProcess = document.getElementById("btnProcessData");
+            const btnBrowse = document.getElementById("btnBrowseFolder");
+            const btnGoBack = document.getElementById("btnGoBack");
+            const filePicker = document.getElementById("filePicker");
+            const folderPath = document.getElementById("folderPath");
+            const folderPathInput = document.getElementById("FolderPath");
+            const formEl = document.getElementById("processForm");
+
+            const btnSpinner = btnProcess ? btnProcess.querySelector(".spinner-border") : null;
+            const btnProcessText = btnProcess ? btnProcess.querySelector(".process-text") : null;
+
+            let selectedFolderPath = "";
+
+            // Back button - navigate to previous page
+            if (btnGoBack) {
+                btnGoBack.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    window.history.back();
+                });
+            }
+
+            function setProcessing(on) {
+                if (on) {
+                    progressEl.style.display = "block";
+                    statusEl.innerText = "Processing files...";
+                    btnProcess.disabled = true;
+                    btnBrowse.disabled = true;
+
+                    if (btnSpinner) btnSpinner.classList.remove("d-none");
+                    if (btnProcessText) btnProcessText.textContent = "Processing";
+                } else {
+                    progressEl.style.display = "none";
+                    btnProcess.disabled = false;
+                    btnBrowse.disabled = false;
+
+                    if (btnSpinner) btnSpinner.classList.add("d-none");
+                    if (btnProcessText) btnProcessText.textContent = "▶ Process";
+                }
+            }
+
+            // Apply status coloring to cells based on status value
+            function applyStatusColoring() {
+                const container = document.getElementById("projectTableArea");
+                const table = container.querySelector("table");
+                if (!table) return;
+
+                const rows = table.querySelectorAll("tbody tr");
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    cells.forEach((cell, idx) => {
+                        // Status column coloring
+                        if (idx === cells.length - 3) {  // Second to last column (Status)
+                            const val = (cell.innerText || "").trim().toUpperCase();
+                            cell.classList.remove("status-yellow", "status-green", "status-red");
+
+                            if (val === "OK") cell.classList.add("status-green");  // Green
+                            else if (val === "NOK") cell.classList.add("status-red");    // Red
+                            else if (val === "NA") cell.classList.add("status-yellow"); // Yellow
+                        }
+                    });
+                });
+            }
+
+            // Reload table fragment from server
+            async function reloadTable() {
+                try {
+                    const response = await fetch(
+                        '@Url.Action("LoadProjectTable", "DataProcessing")'
+                        + '?projectSelect=' + encodeURIComponent(project)
+                        + '&revision=' + encodeURIComponent(revision)
+                    );
+                    const html = await response.text();
+                    document.getElementById("projectTableArea").innerHTML = html;
+
+                    // Apply coloring after injecting table
+                    applyStatusColoring();
+                } catch {
+                    document.getElementById("projectTableArea").innerHTML = "Failed to load table";
+                }
+            }
+
+            window.addEventListener("load", reloadTable);
+
+            // Browse → trigger file input
+            btnBrowse.addEventListener("click", function () {
+                filePicker.click();
+            });
+
+            // Extract folder path from selected files
+            filePicker.addEventListener("change", function (e) {
+                const files = Array.from(e.target.files || []);
+                if (files.length === 0) {
+                    folderPath.value = "";
+                    selectedFolderPath = "";
+                    statusEl.innerText = "No files selected";
+                    return;
+                }
+
+                // Extract actual folder path from File System API or relative path
+                if (files[0].webkitRelativePath) {
+                    // Get the base folder from relative path
+                    const parts = files[0].webkitRelativePath.split("/");
+                    const baseFolder = parts[0];
+                    
+                    // Try to build the full path from the selected entry
+                    // For web, we'll use a simplified approach
+                    folderPath.value = baseFolder;
+                    statusEl.innerText = `${files.length} files detected in folder: ${baseFolder}`;
+                } else {
+                    folderPath.value = "(selected)";
+                    statusEl.innerText = `${files.length} files selected`;
+                }
+            });
+
+            // Collect table data for processing
+            function collectTableData() {
+                const container = document.getElementById("projectTableArea");
+                const table = container.querySelector("table");
+                if (!table) return [];
+
+                const rows = [];
+                const tbody = table.querySelector("tbody") || table;
+                const rowEls = Array.from(tbody.querySelectorAll("tr"));
+
+                rowEls.forEach((tr, idx) => {
+                    const cells = tr.querySelectorAll("td");
+                    if (cells.length > 0) {
+                        rows.push({
+                            Id: (cells[0]?.innerText || "").trim(),
+                            Standard: (cells[1]?.innerText || "").trim(),
+                            Document: (cells[2]?.innerText || "").trim(),
+                            ItemID: (cells[3]?.innerText || "").trim(),
+                            Sub_ItemID: (cells[4]?.innerText || "").trim(),
+                            Checkpoint_Description: (cells[5]?.innerText || "").trim(),
+                            Filestocheck: (cells[6]?.innerText || "").trim(),
+                            Search_criteria: (cells[7]?.innerText || "").trim(),
+                            Expected_output: (cells[8]?.innerText || "").trim(),
+                            FilesRequiringVerification: (cells[9]?.innerText || "").trim(),
+                            WhattoCheck: (cells[10]?.innerText || "").trim(),
+                            Logic: (cells[11]?.innerText || "").trim()
+                        });
+                    }
+                });
+
+                return rows;
+            }
+
+            // Process Button → POST Data
+            btnProcess.addEventListener("click", async function () {
+                const files = Array.from(filePicker.files || []);
+
+                if (files.length === 0) {
+                    statusEl.innerText = "Please select a folder first";
+                    return;
+                }
+
+                setProcessing(true);
+
+                try {
+                    // Extract folder name from the first file's relative path
+                    let folderName = "upload";
+                    
+                    if (files[0]?.webkitRelativePath) {
+                        const parts = files[0].webkitRelativePath.split("/");
+                        folderName = parts[0]; // Use the base folder name
+                    }
+
+                    statusEl.innerText = `Uploading ${files.length} files...`;
+
+                    const formData = new FormData();
+
+                    // Anti-forgery token
+                    const tokenInput = formEl.querySelector('input[name="__RequestVerificationToken"]');
+                    if (tokenInput) {
+                        formData.append('__RequestVerificationToken', tokenInput.value);
+                    }
+
+                    // Append all files to form data
+                    files.forEach((file, index) => {
+                        formData.append("Files", file);
+                    });
+
+                    // Data fields
+                    formData.append("FolderPath", folderName);
+                    formData.append("TableName", `${project}_${revision}`);
+                    
+                    // Collect table data
+                    const tableRows = collectTableData();
+                    formData.append("TableJson", JSON.stringify(tableRows));
+
+                    statusEl.innerText = `Processing ${files.length} files...`;
+
+                    const response = await fetch(formEl.action, {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    const responseText = await response.text();
+                    const json = JSON.parse(responseText);
+                    
+                    if (json.ok) {
+                        statusEl.innerText = json.message || "Processing completed successfully";
+                        
+                        // Reload table to show updated status
+                        setTimeout(() => reloadTable(), 1000);
+                    } else {
+                        statusEl.innerText = json.message || "Processing failed";
+                    }
+                }
+                catch (e) {
+                    console.error("Error:", e);
+                    statusEl.innerText = "Processing failed: " + e.message;
+                }
+                finally {
+                    setProcessing(false);
+                }
+            });
+        })();
+    </script>
+
+    <!-- Optional: Bootstrap Bundle JS (not required for core logic) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

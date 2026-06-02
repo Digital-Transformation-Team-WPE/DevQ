@@ -1,0 +1,198 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace Robot_Program_Validation.Services.Algorithms
+{
+    /// <summary>
+    /// Validates FANUC TP robot program cycles based on Cycle_Call logic:
+    /// - Trajectories must ONLY be called via CALL_PRG(...) syntax
+    /// - Direct trajectory calls like CALL Traj* are NOT allowed
+    /// - Any cycle with direct trajectory calls results in NOK
+    /// </summary>
+    public static class CycleCallValidationService
+    {
+        public class CycleCallInfo
+        {
+            public string CycleNumber { get; set; } = "";
+            public string CycleName { get; set; } = "";
+            public List<string> DirectTrajectoryFails { get; set; } = new();
+            public bool IsValid { get; set; }
+            public int StartLine { get; set; }
+            public int EndLine { get; set; }
+        }
+
+        public class ValidationResult
+        {
+            public bool IsCompliant { get; set; }
+            public string StatusMessage { get; set; } = ""; // OK or NOK
+            public string ValidationSummary { get; set; } = "";
+            public List<string> ValidationDetails { get; set; } = new();
+            public List<CycleCallInfo> AllCycles { get; set; } = new();
+            public List<CycleCallInfo> InvalidCycles { get; set; } = new();
+        }
+
+        /// <summary>
+        /// Validates all cycles in a robot program file for proper CALL_PRG usage
+        /// </summary>
+        public static ValidationResult ValidateCycleCall(string filePath)
+        {
+            var result = new ValidationResult();
+
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    result.IsCompliant = false;
+                    result.StatusMessage = "ERROR";
+                    result.ValidationSummary = $"File not found: {filePath}";
+                    return result;
+                }
+
+                var lines = File.ReadAllLines(filePath);
+                result.AllCycles = ExtractCyclesWithValidation(lines);
+
+                if (result.AllCycles.Count == 0)
+                {
+                    result.IsCompliant = true;
+                    result.StatusMessage = "OK";
+                    result.ValidationSummary = "No cycles found in file";
+                    return result;
+                }
+
+                // Check which cycles are invalid
+                result.InvalidCycles = result.AllCycles
+                    .Where(c => !c.IsValid)
+                    .ToList();
+
+                if (result.InvalidCycles.Count == 0)
+                {
+                    result.IsCompliant = true;
+                    result.StatusMessage = "OK";
+                    result.ValidationSummary = $"All {result.AllCycles.Count} cycles use CALL_PRG correctly (no direct trajectory calls)";
+                    result.ValidationDetails = result.AllCycles
+                        .Select(c => $"Cycle {c.CycleNumber}: '{c.CycleName}' ✓")
+                        .ToList();
+                    return result;
+                }
+
+                // Cycles with invalid trajectory calls
+                result.IsCompliant = false;
+                result.StatusMessage = "NOK";
+                
+                var invalidCycleNumbers = string.Join(", ", 
+                    result.InvalidCycles.Select(c => c.CycleNumber).OrderBy(x => int.Parse(x)));
+                
+                result.ValidationSummary = $"Cycles {invalidCycleNumbers} have direct trajectory calls (not using CALL_PRG)";
+                
+                result.ValidationDetails = result.AllCycles
+                    .Select(c => c.IsValid 
+                        ? $"Cycle {c.CycleNumber}: '{c.CycleName}' ✓"
+                        : $"Cycle {c.CycleNumber}: '{c.CycleName}' ✗ INVALID - Direct calls: {string.Join(", ", c.DirectTrajectoryFails)}")
+                    .ToList();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsCompliant = false;
+                result.StatusMessage = "ERROR";
+                result.ValidationSummary = $"Error validating cycle calls: {ex.Message}";
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Extracts all cycles and validates trajectory calls
+        /// Returns list of cycles with validation status
+        /// </summary>
+        private static List<CycleCallInfo> ExtractCyclesWithValidation(string[] lines)
+        {
+            var cycles = new List<CycleCallInfo>();
+            
+            // Regex to match cycle start: LBL[XX] or LBL[XX:NAME] where XX is exactly 2 digits
+            var cyclePattern = @"LBL\[(\d{2})(?::([^\]]*))?\]";
+            
+            // Regex to match direct trajectory calls: CALL Traj<digits>
+            // Should NOT match CALL_PRG or other CALL statements
+            var directTrajectoryPattern = @"\bCALL\s+Traj(\d+)\b";
+
+            int i = 0;
+            while (i < lines.Length)
+            {
+                var cycleMatch = Regex.Match(lines[i], cyclePattern, RegexOptions.IgnoreCase);
+                
+                if (cycleMatch.Success)
+                {
+                    string cycleNumber = cycleMatch.Groups[1].Value;
+                    string cycleName = cycleMatch.Groups[2].Success ? cycleMatch.Groups[2].Value : "";
+                    int cycleStartLine = i;
+
+                    // Find the end of this cycle: JMP LBL[9999]
+                    int cycleEndLine = FindCycleEnd(lines, i + 1);
+
+                    // Validate trajectory calls within this cycle
+                    var directCalls = new List<string>();
+
+                    for (int j = cycleStartLine; j <= cycleEndLine && j < lines.Length; j++)
+                    {
+                        string line = lines[j];
+
+                        // Check for direct trajectory calls (case-insensitive)
+                        var directMatch = Regex.Match(line, directTrajectoryPattern, RegexOptions.IgnoreCase);
+                        if (directMatch.Success)
+                        {
+                            directCalls.Add($"Traj{directMatch.Groups[1].Value}");
+                        }
+                    }
+
+                    // Cycle is valid if no direct trajectory calls
+                    bool isValid = directCalls.Count == 0;
+
+                    var cycle = new CycleCallInfo
+                    {
+                        CycleNumber = cycleNumber,
+                        CycleName = cycleName,
+                        DirectTrajectoryFails = directCalls,
+                        IsValid = isValid,
+                        StartLine = cycleStartLine + 1, // 1-based for display
+                        EndLine = cycleEndLine + 1
+                    };
+
+                    cycles.Add(cycle);
+                    
+                    // Move to next cycle
+                    i = cycleEndLine + 1;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return cycles;
+        }
+
+        /// <summary>
+        /// Finds the end of a cycle by looking for JMP LBL[9999]
+        /// Returns the line index of JMP LBL[9999]
+        /// </summary>
+        private static int FindCycleEnd(string[] lines, int startIndex)
+        {
+            var endPattern = @"JMP\s+LBL\[9999\]";
+
+            for (int i = startIndex; i < lines.Length; i++)
+            {
+                if (Regex.IsMatch(lines[i], endPattern, RegexOptions.IgnoreCase))
+                {
+                    return i;
+                }
+            }
+
+            // If not found, return last line
+            return lines.Length - 1;
+        }
+    }
+}

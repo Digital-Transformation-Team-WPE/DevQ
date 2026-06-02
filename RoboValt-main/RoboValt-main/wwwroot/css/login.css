@@ -1,0 +1,102 @@
+﻿body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #6a7cff, #7b5fc0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card */
+.login-wrapper {
+    width: 900px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+/* Header logos */
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+    .login-header img {
+        height: 65px;
+        max-width: 220px;
+        object-fit: contain;
+    }
+
+/* Body */
+.login-body {
+    display: flex;
+}
+
+.left-panel {
+    width: 45%;
+    background: #f4f6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .left-panel img {
+        width: 260px;
+    }
+
+/* Right form */
+.right-panel {
+    width: 55%;
+    padding: 60px 50px;
+}
+
+    .right-panel h2 {
+        margin-bottom: 8px;
+    }
+
+    .right-panel p {
+        color: gray;
+        margin-bottom: 30px;
+    }
+
+    /* Ensure perfect alignment for input + button */
+    .right-panel input,
+    .right-panel button {
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+        border-radius: 8px; /* unified radius */
+    }
+
+    /* Input style */
+    .right-panel input {
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+    }
+
+    /* Button style */
+    .right-panel button {
+        padding: 12px;
+        border: none;
+        background: #6a7cff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .right-panel button:hover {
+            background: #5a6be0;
+        }
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+

@@ -1,0 +1,71 @@
+{
+  "robot_commands": {
+    "JMP": {"name": "Jump", "type": "control_flow", "description": "Jump to a label", "syntax": "JMP LBL[number]"},
+    "CALL": {"name": "Call", "type": "control_flow", "description": "Call a subroutine", "syntax": "CALL prog_name"},
+    "IF": {"name": "If Condition", "type": "control_flow", "description": "Conditional statement", "syntax": "IF (condition) THEN"},
+    "LBL": {"name": "Label", "type": "control_flow", "description": "Define a label", "syntax": "LBL[number]"},
+    "GO": {"name": "Go/Move", "type": "motion", "description": "Move robot to position", "syntax": "GO PR[number]"},
+    "DO": {"name": "Do", "type": "motion", "description": "Perform block of instructions", "syntax": "DO ... ENDDO"},
+    "DI": {"name": "Digital Input", "type": "io", "description": "Read digital input", "syntax": "DI[number]"},
+    "GI": {"name": "Group Input", "type": "io", "description": "Group digital input", "syntax": "GI[number]"},
+    "DO_OP": {"name": "Digital Output", "type": "io", "description": "Set digital output", "syntax": "DO[number]=value"},
+    "PR": {"name": "Position Register", "type": "data", "description": "Store robot position", "syntax": "PR[number]"},
+    "R": {"name": "Register", "type": "data", "description": "Numeric register", "syntax": "R[number]"},
+    "F": {"name": "Flag", "type": "data", "description": "Boolean flag", "syntax": "F[number]"},
+    "RETURN": {"name": "Return", "type": "control_flow", "description": "Return from subroutine", "syntax": "RETURN"},
+    "ABORT": {"name": "Abort", "type": "control_flow", "description": "Abort execution", "syntax": "ABORT"},
+    "PAUSE": {"name": "Pause", "type": "control_flow", "description": "Pause execution", "syntax": "PAUSE"},
+    "WAIT": {"name": "Wait", "type": "control_flow", "description": "Wait for condition", "syntax": "WAIT (condition)"},
+    "MESSAGE": {"name": "Message", "type": "debug", "description": "Display message", "syntax": "MESSAGE string"},
+    "SKIP": {"name": "Skip", "type": "control_flow", "description": "Skip condition", "syntax": "SKIP condition"},
+    "UTOOL": {"name": "User Tool", "type": "config", "description": "Set user tool frame", "syntax": "UTOOL[number]"},
+    "UFRAME": {"name": "User Frame", "type": "config", "description": "Set user frame", "syntax": "UFRAME[number]"}
+  },
+  "position_modes": {
+    "CARTESIAN": {
+      "name": "Cartesian",
+      "description": "World coordinate system",
+      "axes": ["X", "Y", "Z", "W", "P", "R"],
+      "unit": "mm and degrees"
+    },
+    "JOINT": {
+      "name": "Joint",
+      "description": "Robot joint angles",
+      "joints": ["J1", "J2", "J3", "J4", "J5", "J6"],
+      "unit": "degrees"
+    },
+    "UNINITIALIZED": {
+      "name": "Uninitialized",
+      "description": "No position data",
+      "status": "invalid"
+    }
+  },
+  "pr_register": {
+    "name": "Position Register",
+    "description": "Stores robot position data",
+    "range": "PR[1] to PR[256]"
+  },
+  "query_intents": {
+    "VALIDATE": {
+      "keywords": ["check", "validate", "verify", "confirm", "are"],
+      "action": "Validate condition"
+    },
+    "SEARCH": {
+      "keywords": ["find", "search", "locate", "show", "list"],
+      "action": "Search for items"
+    },
+    "EXTRACT": {
+      "keywords": ["get", "extract", "display", "show", "tell"],
+      "action": "Extract and display data"
+    },
+    "ANALYZE": {
+      "keywords": ["analyze", "how many", "count", "what"],
+      "action": "Analyze data"
+    }
+  },
+  "response_templates": {
+    "success": "PASSED",
+    "failure": "FAILED",
+    "not_found": "NOT FOUND"
+  }
+}
