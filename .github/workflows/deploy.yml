@@ -23,8 +23,9 @@ jobs:
         run: dotnet publish ChecklistMaster.Server/ChecklistMaster.Server.csproj -c Release -o ./publish
 
       - name: Stop IIS App Pool
-        shell: powershell
+        shell: pwsh
         run: |
+          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
           Import-Module WebAdministration
           $pool = 'Rstudio'
           if ((Get-WebAppPoolState -Name $pool).Value -ne 'Stopped') {
@@ -37,16 +38,18 @@ jobs:
           }
 
       - name: Deploy files
-        shell: powershell
+        shell: pwsh
         run: |
+          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
           $dest = 'C:\Myapps\RSTUDIO'
           if (!(Test-Path $dest)) { New-Item -ItemType Directory -Force $dest | Out-Null }
           robocopy .\publish $dest /MIR /NJH /NJS /NFL /NDL /NC /NS /NP
           if ($LASTEXITCODE -le 7) { exit 0 } else { exit $LASTEXITCODE }
 
       - name: Start IIS App Pool
-        shell: powershell
+        shell: pwsh
         if: always()
         run: |
+          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
           Import-Module WebAdministration
           Start-WebAppPool -Name 'Rstudio'
