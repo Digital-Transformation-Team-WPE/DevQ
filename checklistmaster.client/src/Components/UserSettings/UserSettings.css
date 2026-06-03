@@ -1,0 +1,169 @@
+/* ═══════════════════════════════════════════════════════════════
+   UserSettings – uses CSS variables from Dashboard.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Page layout ─────────────────────────────────────────────── */
+.us-page { display:flex; flex-direction:column; gap:20px; max-width:800px; }
+
+.us-page-header {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.us-title    { margin:0; font-size:22px; font-weight:700; color:var(--dash-header-bg); }
+.us-subtitle { margin:4px 0 0; font-size:13px; color:#888; }
+
+.us-avatar-large {
+  width:56px; height:56px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:700; color:#fff; flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+}
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+.us-tabs {
+  display:flex; gap:4px; border-bottom:2px solid var(--dash-border);
+  padding-bottom:0;
+}
+.us-tab {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:9px 18px; border:none; background:none; cursor:pointer;
+  font-size:13px; font-weight:600; color:#888; border-radius:6px 6px 0 0;
+  transition:color .15s, background .15s; position:relative; bottom:-2px;
+  border-bottom:2px solid transparent; font-family:inherit;
+}
+.us-tab svg { width:15px; height:15px; }
+.us-tab:hover { color:#3f51b5; background:rgba(63,81,181,.06); }
+.us-tab.active { color:#3f51b5; border-bottom-color:#3f51b5; background:rgba(63,81,181,.06); }
+
+/* ── Card ────────────────────────────────────────────────────── */
+.us-card {
+  background:var(--dash-card-bg); border-radius:10px;
+  border:1px solid var(--dash-border); box-shadow:0 1px 8px rgba(0,0,0,.06);
+  padding:28px 28px;
+}
+
+/* ── Section title ───────────────────────────────────────────── */
+.us-section-title {
+  font-size:11px; font-weight:700; color:#3f51b5;
+  text-transform:uppercase; letter-spacing:.7px; margin-bottom:20px;
+}
+
+/* ── Form grid ───────────────────────────────────────────────── */
+.us-form { display:flex; flex-direction:column; gap:0; }
+.us-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px 28px;
+  margin-bottom:28px;
+}
+.us-grid-narrow { grid-template-columns:1fr; max-width:480px; }
+
+/* ── Field ───────────────────────────────────────────────────── */
+.us-field { display:flex; flex-direction:column; gap:6px; }
+.us-label {
+  font-size:11px; font-weight:700; color:#555;
+  text-transform:uppercase; letter-spacing:.4px;
+}
+.us-hint { font-size:11px; color:#999; line-height:1.4; margin-top:2px; }
+
+/* ── Input ───────────────────────────────────────────────────── */
+.us-input {
+  height:40px; padding:0 12px; border:1.5px solid var(--dash-border);
+  border-radius:7px; font-size:13.5px; background:#fafbff; color:inherit;
+  outline:none; transition:border-color .15s, box-shadow .15s;
+  font-family:inherit; width:100%; box-sizing:border-box;
+}
+.us-input:focus { border-color:#3f51b5; background:#fff; box-shadow:0 0 0 3px rgba(63,81,181,.1); }
+
+/* ── Password input wrapper ──────────────────────────────────── */
+.us-pw-wrap { position:relative; }
+.us-pw-wrap .us-input { padding-right:42px; }
+.us-pw-toggle {
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; color:#999; padding:4px;
+  display:flex; align-items:center; justify-content:center;
+  transition:color .15s;
+}
+.us-pw-toggle:hover { color:#3f51b5; }
+
+/* ── Read-only field ─────────────────────────────────────────── */
+.us-readonly {
+  height:40px; padding:0 12px; border:1.5px solid var(--dash-border);
+  border-radius:7px; font-size:13.5px; background:#f5f6fa; color:#666;
+  display:flex; align-items:center; box-sizing:border-box;
+}
+
+/* ── Role badge ──────────────────────────────────────────────── */
+.us-role-badge {
+  display:inline-flex; align-items:center; padding:3px 10px;
+  border-radius:20px; font-size:12px; font-weight:600; color:#fff;
+  letter-spacing:.3px;
+}
+
+/* ── Status badge ────────────────────────────────────────────── */
+.us-status-badge {
+  display:inline-flex; align-items:center; padding:3px 10px;
+  border-radius:20px; font-size:12px; font-weight:600; letter-spacing:.3px;
+}
+.us-status-badge.active   { background:#e8f5e9; color:#2e7d32; }
+.us-status-badge.inactive { background:#ffebee; color:#c62828; }
+
+/* ── Info box ────────────────────────────────────────────────── */
+.us-info-box {
+  display:flex; align-items:flex-start; gap:10px;
+  background:#eff3ff; border:1px solid #c5cff7; border-radius:8px;
+  padding:12px 16px; font-size:12.5px; color:#3f51b5; margin-bottom:24px;
+  line-height:1.5;
+}
+.us-info-box svg { flex-shrink:0; margin-top:1px; }
+
+/* ── Password strength bar ───────────────────────────────────── */
+.us-strength-bar {
+  display:flex; align-items:center; gap:10px; margin-top:6px;
+}
+.us-strength-track {
+  display:flex; gap:4px; flex:1;
+}
+.us-strength-seg {
+  height:4px; flex:1; border-radius:2px;
+  transition:background .2s;
+}
+.us-strength-label {
+  font-size:11px; font-weight:600; white-space:nowrap; min-width:72px;
+  text-align:right;
+}
+
+/* ── Match hint ──────────────────────────────────────────────── */
+.us-match-hint {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:12px; font-weight:500; margin-top:4px;
+}
+.us-match-hint.ok  { color:#27ae60; }
+.us-match-hint.err { color:#e74c3c; }
+.us-match-hint svg { width:13px; height:13px; }
+
+/* ── Form footer ─────────────────────────────────────────────── */
+.us-form-footer {
+  display:flex; justify-content:flex-end; padding-top:4px;
+  border-top:1px solid var(--dash-border); padding-top:20px;
+}
+
+/* ── Primary button ──────────────────────────────────────────── */
+.us-btn-primary {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:10px 24px; background:#3f51b5; color:#fff;
+  border:none; border-radius:7px; font-size:13px; font-weight:600;
+  cursor:pointer; transition:background .18s, box-shadow .18s, transform .12s;
+  font-family:inherit;
+}
+.us-btn-primary svg { width:14px; height:14px; }
+.us-btn-primary:hover:not(:disabled) {
+  background:#2F2F7F; box-shadow:0 4px 14px rgba(63,81,181,.35);
+  transform:translateY(-1px);
+}
+.us-btn-primary:disabled { opacity:.55; cursor:not-allowed; transform:none !important; }
+
+/* ── Dark mode ───────────────────────────────────────────────── */
+[data-theme="dark"] .us-input   { background:#1a1a38; border-color:#2a2a4a; color:#ccd1ff; }
+[data-theme="dark"] .us-input:focus { background:#1e1e3a; }
+[data-theme="dark"] .us-readonly { background:#15152e; border-color:#2a2a4a; color:#888; }
+[data-theme="dark"] .us-info-box { background:#1e1e3a; border-color:#2a2a4a; color:#9999cc; }
+[data-theme="dark"] .us-status-badge.active   { background:#1b3a2a; color:#4caf50; }
+[data-theme="dark"] .us-status-badge.inactive { background:#3a1b1b; color:#ef5350; }

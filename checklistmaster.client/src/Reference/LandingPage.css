@@ -1,0 +1,166 @@
+/* Main container */
+.landing-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* LEFT SIDE */
+.landing-left {
+  flex: 1;
+  background: #f7f8fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-image {
+  width: 70%;
+  max-width: 420px;
+}
+
+/* RIGHT SIDE */
+.landing-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-left: 1px solid #e0e0e0;
+}
+
+/* LOGIN BOX */
+.login-block {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Welcome text */
+.landing-welcome {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2F2F7F;
+  margin-bottom: 25px;
+}
+
+/* FORM */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Labels */
+.login-form label {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Inputs */
+.login-form input {
+  border: none;
+  border-bottom: 1.5px solid #333;
+  padding: 6px 2px;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+.login-form input:focus {
+  border-bottom: 2px solid #3f51b5;
+}
+
+/* Login button */
+.login-btn {
+  margin-top: 10px;
+  padding: 10px;
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #2c3a9e;
+}
+
+/* Separator */
+.separator {
+  margin: 20px 0;
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+  margin: 0 10px;
+}
+
+/* Microsoft button */
+.enterprise-login-btn {
+  width: 100%;
+  padding: 10px;
+  background: #2F2F7F;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.enterprise-login-btn:hover {
+  background: #1f1f5c;
+}
+
+/* Logos */
+.logo-top-left {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 5%;
+}
+
+.logo-top-right {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 16%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .landing-container {
+    flex-direction: column;
+  }
+
+  .landing-left {
+    height: 40vh;
+  }
+
+  .landing-right {
+    height: 60vh;
+    border-left: none;
+    border-top: 1px solid #ddd;
+  }
+}
+form input[type="text"],
+form input[type="password"] {
+      width: -webkit-fill-available;
+}
+.loginbtn{
+    display: flex;
+    justify-content: center;
+  flex-direction: row;
+
+}

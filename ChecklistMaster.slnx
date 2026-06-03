@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="checklistmaster.client/checklistmaster.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ChecklistMaster.Server/ChecklistMaster.Server.csproj" />
+</Solution>

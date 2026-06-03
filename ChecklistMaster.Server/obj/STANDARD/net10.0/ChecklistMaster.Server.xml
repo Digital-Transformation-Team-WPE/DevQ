@@ -1,0 +1,767 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ChecklistMaster.Server</name>
+    </assembly>
+    <members>
+        <member name="T:ChecklistMaster.Server.Controllers.AuthController">
+            <summary>
+            Authentication � login, logout, session restore, and first-run bootstrap.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.Login(ChecklistMaster.Server.Models.LoginRequest)">
+            <summary>
+            Validates credentials via Azure AD ROPC, fetches role from DB,
+            and issues a signed JWT in an HttpOnly cookie.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.Logout">
+            <summary>Clears the auth cookie and ends the session.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.Me">
+            <summary>
+            Returns the current user from the JWT cookie.
+            Called by the SPA on every page refresh to restore React context.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.ValidateEmail(ChecklistMaster.Server.Models.ValidateEmailRequest)">
+            <summary>
+            Checks whether an email belongs to an allowed organisation domain.
+            Used by the registration form for real-time feedback (no auth required).
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.Register(ChecklistMaster.Server.Models.RegisterRequest)">
+            <summary>
+            Self-registration: saves user as Inactive with default password.
+            An admin must approve the account before the user can log in.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.Bootstrap(ChecklistMaster.Server.Models.CreateUserRequest)">
+            <summary>
+            ONE-TIME endpoint: creates the very first Admin user when the Users
+            table is completely empty. Automatically disabled once any user exists.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.MicrosoftAdminConsent">
+            <summary>
+            ONE-TIME endpoint: an Azure AD admin visits this URL to grant
+            organisation-wide consent for the app. After consent is granted,
+            regular users can sign in via /microsoft/login without seeing a
+            consent prompt.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.MicrosoftLogin">
+            <summary>
+            Starts the Microsoft OAuth2 Authorization Code flow.
+            Redirects the browser to the Microsoft login page.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.AuthController.MicrosoftCallback(System.String,System.String,System.String,System.String)">
+            <summary>
+            Microsoft OAuth2 callback: exchanges the auth code for an ID token,
+            resolves the user in the DB, and issues a local JWT cookie.
+            </summary>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.CalendarEventsController">
+            <summary>
+            Manages CalendarEvents — holidays, vacations, non-working days,
+            special working days, and milestone targets.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.CalendarEventsController.GetAll">
+            <summary>Returns all calendar events (global and personal).</summary>
+            <response code="200">List of all calendar events.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.CalendarEventsController.GetById(System.String)">
+            <summary>Returns a single calendar event by Uid.</summary>
+            <param name="id">Event Uid.</param>
+            <response code="200">Event found.</response>
+            <response code="404">Event not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.CalendarEventsController.GetByUser(System.String)">
+            <summary>
+            Returns all global events plus personal events belonging to the specified user.
+            </summary>
+            <param name="userId">UserId of the requesting user.</param>
+            <response code="200">Matching events.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.CalendarEventsController.Create(ChecklistMaster.Server.Models.CalendarEvent)">
+            <summary>Creates a new calendar event.</summary>
+            <param name="entity">CalendarEvent payload.</param>
+            <response code="201">Event created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.CalendarEventsController.Update(System.String,ChecklistMaster.Server.Models.CalendarEvent)">
+            <summary>Updates an existing calendar event.</summary>
+            <param name="id">Uid of the event to update.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Event updated.</response>
+            <response code="404">Event not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.CalendarEventsController.Delete(System.String)">
+            <summary>Deletes a calendar event by Uid.</summary>
+            <param name="id">Uid of the event to delete.</param>
+            <response code="204">Event deleted.</response>
+            <response code="404">Event not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ChecklistMasterController">
+            <summary>
+            Master list of checklist checkpoints – the source of truth for all checklist templates,
+            filterable by Zone, Area, and Department.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.GetAll">
+            <summary>Returns all checklist master records.</summary>
+            <response code="200">Records returned.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.GetById(System.String)">
+            <summary>Returns a checklist master record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="200">Record found.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.GetByZone(System.String)">
+            <summary>Returns checklist master records filtered by Zone.</summary>
+            <param name="zone">Zone name.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.GetByArea(System.String)">
+            <summary>Returns checklist master records filtered by Area.</summary>
+            <param name="area">Area name.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.GetByDepartment(System.String)">
+            <summary>Returns checklist master records filtered by Department.</summary>
+            <param name="department">Department name.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.Create(ChecklistMaster.Server.Models.ChecklistMasterEntity)">
+            <summary>Creates a new checklist master record.</summary>
+            <param name="entity">Payload.</param>
+            <response code="201">Created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.CreateBatch(System.Collections.Generic.List{ChecklistMaster.Server.Models.ChecklistMasterEntity})">
+            <summary>
+            Batch-creates multiple checklist master records from an Excel import.
+            Returns a summary of how many succeeded and any per-row errors.
+            </summary>
+            <param name="entities">Array of records to create.</param>
+            <response code="200">Batch processed (check Created/Failed counts in response).</response>
+            <response code="400">Empty payload.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.Update(System.String,ChecklistMaster.Server.Models.ChecklistMasterEntity)">
+            <summary>Updates a checklist master record.</summary>
+            <param name="id">Record Uid.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>Uploads a file (image or document) for a checklist master record.</summary>
+            <response code="200">Returns the stored path and original file name.</response>
+            <response code="400">No file provided or file type not allowed.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMasterController.Delete(System.String)">
+            <summary>Deletes a checklist master record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ChecklistMilestonesController">
+            <summary>
+            Manages Checklist Milestones – tracks checkpoint target dates, no-of-days targets,
+            and department assignments for each checklist item.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.GetAll">
+            <summary>Returns all checklist milestone records.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.GetById(System.String)">
+            <summary>Returns a milestone record by Uid.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.GetByDepartment(System.String)">
+            <summary>Returns milestone records filtered by department.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.GetByChkId(System.String)">
+            <summary>Returns milestone records for a given checklist ID.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.GetByMilestoneId(System.String)">
+            <summary>Returns milestone records for a given milestone ID.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.Create(ChecklistMaster.Server.Models.ChecklistMilestone)">
+            <summary>Creates a new checklist milestone record.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.Update(System.String,ChecklistMaster.Server.Models.ChecklistMilestone)">
+            <summary>Updates an existing checklist milestone record.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ChecklistMilestonesController.Delete(System.String)">
+            <summary>Deletes a checklist milestone record.</summary>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ComponentMetadataController">
+            <summary>
+            UI Component Metadata – stores labels, parameters, actions and language codes
+            used to drive dynamic UI rendering across the application.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.GetAll">
+            <summary>Returns all component metadata records.</summary>
+            <response code="200">Records returned.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.GetById(System.Int32)">
+            <summary>Returns a component metadata record by its integer Ouid.</summary>
+            <param name="id">Ouid (integer primary key).</param>
+            <response code="200">Record found.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.GetByComponentCode(System.String)">
+            <summary>Returns metadata records for a given component code.</summary>
+            <param name="componentCode">Component code string.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.GetByLanguage(System.Int32)">
+            <summary>Returns metadata records for a given language code.</summary>
+            <param name="language">Integer language code.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.Create(ChecklistMaster.Server.Models.ComponentMetadata)">
+            <summary>Creates a new component metadata record.</summary>
+            <param name="entity">Payload.</param>
+            <response code="201">Created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.Update(System.Int32,ChecklistMaster.Server.Models.ComponentMetadata)">
+            <summary>Updates a component metadata record.</summary>
+            <param name="id">Ouid of the record to update.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ComponentMetadataController.Delete(System.Int32)">
+            <summary>Deletes a component metadata record by Ouid.</summary>
+            <param name="id">Ouid of the record to delete.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.DmrsChecklistsController">
+            <summary>
+            DMRS Checklist – Design, Manufacturing, and Release Sign-off checkpoints per issue and part.
+            Sync results and comments are stored as a single SyncData JSON column (dynamic milestone support).
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.UploadImage(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>Uploads an image attachment and returns its server-relative URL path.</summary>
+            <response code="200">Returns { path: "/uploads/dmrs/filename.ext" }</response>
+            <response code="400">No file or unsupported type.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.GetAll">
+            <summary>Returns all DMRS checklist records.</summary>
+            <response code="200">Records returned.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.GetById(System.String)">
+            <summary>Returns a DMRS checklist record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="200">Record found.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.GetByIssueNumber(System.String)">
+            <summary>Returns DMRS records for a given issue number.</summary>
+            <param name="issueNumber">Issue number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.GetByPartNumber(System.String)">
+            <summary>Returns DMRS records for a given part number.</summary>
+            <param name="partNumber">Part number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.Create(ChecklistMaster.Server.Models.DmrsChecklist)">
+            <summary>Creates a new DMRS checklist record.</summary>
+            <param name="entity">Payload.</param>
+            <response code="201">Created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.Update(System.String,ChecklistMaster.Server.Models.DmrsChecklist)">
+            <summary>Updates a DMRS checklist record.</summary>
+            <param name="id">Record Uid.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.DmrsChecklistsController.Delete(System.String)">
+            <summary>Deletes a DMRS checklist record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.GraphController.SearchUsers(System.String)">
+            <summary>
+            Search users by display name / mail / UPN. Minimum 3 characters.
+            Returns { azureEnabled, users }.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.GraphController.GetAllUsers">
+            <summary>
+            Returns { azureEnabled, users }.
+            azureEnabled=false  → Azure is off; frontend should fall back to internal users.
+            azureEnabled=true, users=[...] → Azure working.
+            azureEnabled=true, users=[]   → Azure enabled but 0 users returned (bad credentials / missing permission).
+            422 → Azure enabled but the Graph API call threw (auth error, network, etc.).
+            </summary>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.IssueListDocinfosController">
+            <summary>
+            Manages Issue Document Information – titles, descriptions, owners, dates, part numbers, and derogation data.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.GetAll">
+            <summary>Returns all issue doc-info records.</summary>
+            <response code="200">Records returned.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.GetById(System.String)">
+            <summary>Returns a doc-info record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="200">Record found.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.GetByIssueNumber(System.String)">
+            <summary>Returns doc-info records for a given issue number.</summary>
+            <param name="issueNumber">Issue number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.GetByPartNumber(System.String)">
+            <summary>Returns doc-info records for a given part number.</summary>
+            <param name="partNumber">Part number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.Create(ChecklistMaster.Server.Models.IssueListDocinfo)">
+            <summary>Creates a new issue doc-info record.</summary>
+            <param name="entity">Payload.</param>
+            <response code="201">Created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.Update(System.String,ChecklistMaster.Server.Models.IssueListDocinfo)">
+            <summary>Updates an existing issue doc-info record.</summary>
+            <param name="id">Record Uid.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListDocinfosController.Delete(System.String)">
+            <summary>Deletes a doc-info record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.IssueListHistoriesController">
+            <summary>
+            Audit trail for Issue List changes – tracks who modified records and when.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListHistoriesController.GetAll">
+            <summary>Returns all history records.</summary>
+            <response code="200">Records returned.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListHistoriesController.GetById(System.String)">
+            <summary>Returns a history record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="200">Record found.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListHistoriesController.GetByIssueNumber(System.String)">
+            <summary>Returns history records for a given issue number.</summary>
+            <param name="issueNumber">Issue number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListHistoriesController.Create(ChecklistMaster.Server.Models.IssueListHistory)">
+            <summary>Creates a new history record.</summary>
+            <param name="entity">Payload.</param>
+            <response code="201">Created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListHistoriesController.Update(System.String,ChecklistMaster.Server.Models.IssueListHistory)">
+            <summary>Updates a history record.</summary>
+            <param name="id">Record Uid.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListHistoriesController.Delete(System.String)">
+            <summary>Deletes a history record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.IssueListPartinfosController">
+            <summary>
+            Manages Issue Part Information – revisions, maturity states, pictures, proposals, and solutions.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.GetAll">
+            <summary>Returns all part-info records.</summary>
+            <response code="200">Records returned.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.GetById(System.String)">
+            <summary>Returns a part-info record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="200">Record found.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.GetByIssueNumber(System.String)">
+            <summary>Returns part-info records for a given issue number.</summary>
+            <param name="issueNumber">Issue number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.GetByPartNumber(System.String)">
+            <summary>Returns part-info records for a given part number.</summary>
+            <param name="partNumber">Part number.</param>
+            <response code="200">Matching records.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.Create(ChecklistMaster.Server.Models.IssueListPartinfo)">
+            <summary>Creates a new part-info record.</summary>
+            <param name="entity">Payload.</param>
+            <response code="201">Created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.Update(System.String,ChecklistMaster.Server.Models.IssueListPartinfo)">
+            <summary>Updates a part-info record.</summary>
+            <param name="id">Record Uid.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.IssueListPartinfosController.Delete(System.String)">
+            <summary>Deletes a part-info record by Uid.</summary>
+            <param name="id">Record Uid.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.MilestoneMasterController">
+            <summary>
+            Manages the Milestone Master — the admin-defined ordered list of default
+            milestones (name, description, days-after-previous) that seed every new project.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.MilestoneMasterController.GetAll">
+            <summary>Returns all milestone master records.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.MilestoneMasterController.GetActive">
+            <summary>Returns active milestone masters ordered by MilestoneOrder.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.MilestoneMasterController.GetById(System.String)">
+            <summary>Returns a milestone master by Uid.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.MilestoneMasterController.Create(ChecklistMaster.Server.Models.MilestoneMaster)">
+            <summary>Creates a new milestone master record.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.MilestoneMasterController.Update(System.String,ChecklistMaster.Server.Models.MilestoneMaster)">
+            <summary>Updates an existing milestone master.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.MilestoneMasterController.Delete(System.String)">
+            <summary>Deletes a milestone master record.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.NotificationsController.Trigger(ChecklistMaster.Server.Models.NotificationRequest)">
+            <summary>
+            Triggers a notification by executing usp_TriggerNotification.
+            The SP builds the mail content and sends it via SQL Server Database Mail.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.PartMilestonesController.BulkUpsert(System.String,System.Collections.Generic.IEnumerable{ChecklistMaster.Server.Models.PartMilestone})">
+            <summary>Bulk-upsert milestones for a part (replaces all rows for that issueNumber).</summary>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ProjectIssueLinksController">
+            <summary>
+            Links Projects to Issue numbers – manage the many-to-many mapping between projects and issues.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.GetAll">
+            <summary>Returns all project–issue links.</summary>
+            <response code="200">List returned successfully.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.GetById(System.String)">
+            <summary>Returns a link by its Uid.</summary>
+            <param name="id">Link Uid.</param>
+            <response code="200">Link found.</response>
+            <response code="404">Link not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.GetByProject(System.String)">
+            <summary>Returns all links for a given project Uid.</summary>
+            <param name="uid">Project Uid.</param>
+            <response code="200">Matching links.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.GetByIssueNumber(System.String)">
+            <summary>Returns all links for a given issue number.</summary>
+            <param name="issueNumber">Issue number.</param>
+            <response code="200">Matching links.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.Create(ChecklistMaster.Server.Models.ProjectIssueLink)">
+            <summary>Creates a new project–issue link.</summary>
+            <param name="entity">Link payload.</param>
+            <response code="201">Link created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.Update(System.String,ChecklistMaster.Server.Models.ProjectIssueLink)">
+            <summary>Updates an existing project–issue link.</summary>
+            <param name="id">Uid of the link to update.</param>
+            <param name="entity">Updated payload.</param>
+            <response code="200">Updated.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectIssueLinksController.Delete(System.String)">
+            <summary>Deletes a link by Uid.</summary>
+            <param name="id">Link Uid.</param>
+            <response code="204">Deleted.</response>
+            <response code="404">Not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ProjectMilestonesController">
+            <summary>
+            Manages Project Milestones – project-level milestones with per-department
+            completion tracking (AVP and WGDE dates stored as first-class columns).
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.GetAll">
+            <summary>Returns all project milestone records.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.GetById(System.String)">
+            <summary>Returns a project milestone by Uid.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.GetByProject(System.String)">
+            <summary>Returns all milestones for a given project, ordered by MilestoneOrder.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.Create(ChecklistMaster.Server.Models.ProjectMilestone)">
+            <summary>Creates a new project milestone.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.Update(System.String,ChecklistMaster.Server.Models.ProjectMilestone)">
+            <summary>Updates an existing project milestone.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.BulkUpsert(System.String,System.Collections.Generic.IEnumerable{ChecklistMaster.Server.Models.ProjectMilestone})">
+            <summary>
+            Replaces all milestones for a project in a single transaction.
+            Rows not present in the payload are deleted; existing rows are updated; new rows are inserted.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectMilestonesController.Delete(System.String)">
+            <summary>Deletes a project milestone.</summary>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ProjectReportController">
+            <summary>
+            Aggregates project robustness report data from existing tables —
+            no new DB tables; reads Project, ProjectIssueLinks, ProjectMilestones,
+            DmrsChecklists, and PartMilestones then computes chart series, KPIs,
+            and parts-detail table in one response.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectReportController.GetReport(System.String)">
+            <summary>
+            Returns the full robustness report for a project:
+            milestone columns, chart data points (Green/Orange/Red counts + %),
+            KPI summary, and the parts-detail table.
+            </summary>
+            <param name="projectUid">Projects.Uid</param>
+            <response code="200">Report data returned.</response>
+            <response code="404">Project not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Controllers.ProjectsController">
+            <summary>
+            Manages Projects – create, read, update, and delete project records.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectsController.GetAll">
+            <summary>Returns all projects.</summary>
+            <response code="200">List of projects.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectsController.GetById(System.String)">
+            <summary>Returns a single project by Uid.</summary>
+            <param name="id">Project Uid.</param>
+            <response code="200">Project found.</response>
+            <response code="404">Project not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectsController.GetByCreatedBy(System.String)">
+            <summary>Returns all projects created by a specific user.</summary>
+            <param name="createdBy">Username of the creator.</param>
+            <response code="200">Matching projects.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectsController.Create(ChecklistMaster.Server.Models.Project)">
+            <summary>Creates a new project.</summary>
+            <param name="entity">Project payload.</param>
+            <response code="201">Project created.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectsController.Update(System.String,ChecklistMaster.Server.Models.Project)">
+            <summary>Updates an existing project.</summary>
+            <param name="id">Uid of the project to update.</param>
+            <param name="entity">Updated project payload.</param>
+            <response code="200">Project updated.</response>
+            <response code="404">Project not found.</response>
+        </member>
+        <member name="M:ChecklistMaster.Server.Controllers.ProjectsController.Delete(System.String)">
+            <summary>Deletes a project by Uid.</summary>
+            <param name="id">Uid of the project to delete.</param>
+            <response code="204">Project deleted.</response>
+            <response code="404">Project not found.</response>
+        </member>
+        <member name="T:ChecklistMaster.Server.Migrations.AddMilestoneMaster">
+            <inheritdoc />
+        </member>
+        <member name="M:ChecklistMaster.Server.Migrations.AddMilestoneMaster.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ChecklistMaster.Server.Migrations.AddMilestoneMaster.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ChecklistMaster.Server.Migrations.AddMilestoneMaster.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ChecklistMaster.Server.Models.CalendarEvent">
+            <summary>
+            Represents a calendar event: holiday, vacation, non-working day,
+            special working day, or milestone target date.
+            </summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.Uid">
+            <summary>Primary key — GUID string (no dashes, uppercase).</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.Title">
+            <summary>Display title, e.g. "Independence Day" or "John's vacation".</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.EventType">
+            <summary>
+            Event category.
+            Allowed values: Holiday | Vacation | NonWorking | WorkingDay | Milestone
+            </summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.StartDate">
+            <summary>Inclusive start date (stored as UTC midnight).</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.EndDate">
+            <summary>Inclusive end date (stored as UTC midnight). Equal to StartDate for single-day events.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.IsGlobal">
+            <summary>
+            Scope flag.
+            true  = global event visible to every user.
+            false = personal event visible only to the owning user.
+            </summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.UserId">
+            <summary>
+            Owner's UserId.
+            Null / empty for global events; set to a specific UserId for personal events.
+            </summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.Department">
+            <summary>Department filter: AVP | WGDE | null (= all departments).</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.IsRecurring">
+            <summary>When true the event repeats annually on the same month/day.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.Notes">
+            <summary>Optional free-text notes or description.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.CalendarEvent.Flag1">
+            <summary>
+            General-purpose flag for future use (e.g. colour override, linked project UID).
+            </summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.MilestoneMaster.NoOfDays">
+            <summary>Days after the previous milestone (or project creation for the first).</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.MilestoneMaster.MilestoneOrder">
+            <summary>Display/sort order (1, 2, 3 …).</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.NotificationRequest.EventType">
+            <summary>PROJECT_CREATED | PROJECT_UPDATED | STATUS_CHANGED</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.NotificationRequest.EntityType">
+            <summary>Entity kind, e.g. "Project"</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.NotificationRequest.EntityId">
+            <summary>Primary key (Uid) of the affected entity</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.NotificationRequest.TriggeredBy">
+            <summary>UserId or display name of the user who triggered the event</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.ProjectUid">
+            <summary>FK to Projects.Uid — every milestone belongs to one project.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.MilestoneName">
+            <summary>Display name for this milestone (e.g. "SOP", "DVP Freeze").</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.MilestoneOrder">
+            <summary>Sequence number used to order milestones within a project.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.PlannedDate">
+            <summary>Planned / target completion date.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.Status">
+            <summary>Overall status: pending | in progress | completed.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.Department">
+            <summary>Applicable department(s): AVP | WGDE | Common | AVP,WGDE.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.AvpCompletedDate">
+            <summary>Date the AVP department completed this milestone.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.WgdeCompletedDate">
+            <summary>Date the WGDE department completed this milestone.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Models.ProjectMilestone.Notes">
+            <summary>Optional free-text notes.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.CalendarEventService.GetByUserAsync(System.String)">
+            <summary>
+            Returns all global events plus the personal events owned by <paramref name="userId"/>.
+            Global events have IsGlobal == true; personal events have IsGlobal == false and UserId == userId.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.GraphService.GetAllUsersAsync">
+            <summary>
+            Fetches ALL enabled users by following Graph API pagination (each page ≤ 100 users).
+            Throws on failure so the controller can return a meaningful 422 error.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.GraphService.SearchUsersAsync(System.String)">
+            <summary>
+            Uses Graph $search (requires ConsistencyLevel:eventual) to find up to 50 users
+            whose displayName, mail, or userPrincipalName contains the query string.
+            Throws on failure so the controller can surface a meaningful error.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IAuthService.ValidateAzureAdAsync(System.String,System.String)">
+            <summary>
+            Validates credentials against SQL (PBKDF2) then verifies the user
+            exists in Entra ID via Microsoft Graph. Used when AzureAd:Enabled is true.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IAuthService.ValidateLocalAsync(System.String,System.String)">
+            <summary>
+            Validates credentials directly against the Users table (basic auth).
+            Used when AzureAd:Enabled is false.
+            If the user's Password field is null, any password is accepted (first-login / dev setup).
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.ICalendarEventService.GetByUserAsync(System.String)">
+            <summary>
+            Returns all global events plus any personal events that belong to <paramref name="userId"/>.
+            </summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IMilestoneMasterService.GetActiveOrderedAsync">
+            <summary>Returns active milestone masters ordered by MilestoneOrder.</summary>
+        </member>
+        <member name="P:ChecklistMaster.Server.Services.IGraphService.IsAzureEnabled">
+            <summary>True when AzureAd:Enabled is set to true in configuration.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IGraphService.UserExistsAsync(System.String)">
+            <summary>Checks whether a user exists in Entra ID by email or UPN.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IGraphService.GetUserProfileAsync(System.String)">
+            <summary>Fetches profile fields from Entra ID; returns null if not found.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IGraphService.GetAllUsersAsync">
+            <summary>Returns all enabled users in the organisation, ordered by display name.</summary>
+        </member>
+        <member name="M:ChecklistMaster.Server.Services.IGraphService.SearchUsersAsync(System.String)">
+            <summary>Searches enabled users by display name, mail or UPN. Returns up to 50 matches.</summary>
+        </member>
+        <member name="T:ChecklistMaster.Server.Services.PasswordHasher">
+            <summary>
+            PBKDF2-SHA256 password hashing. Stored format: "PBKDF2:{base64-salt}:{base64-hash}"
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+    </members>
+</doc>

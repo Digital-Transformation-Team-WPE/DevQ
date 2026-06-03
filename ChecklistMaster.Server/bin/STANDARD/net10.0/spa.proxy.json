@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:52648",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "C:\\Users\\TA47460\\Desktop\\Projects\\WebAPp\\ChecklistMaster\\checklistmaster.server\\..\\checklistmaster.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

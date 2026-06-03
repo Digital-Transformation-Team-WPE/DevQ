@@ -1,0 +1,57 @@
+name: Deploy to IIS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Publish application
+        run: dotnet publish ChecklistMaster.Server/ChecklistMaster.Server.csproj -c Release -o ./publish
+
+      - name: Stop IIS App Pool
+        shell: powershell
+        run: |
+          Import-Module WebAdministration
+          $pool = 'Rstudio'
+          if ((Get-WebAppPoolState -Name $pool).Value -ne 'Stopped') {
+            Stop-WebAppPool -Name $pool
+            $timeout = 15
+            while ((Get-WebAppPoolState -Name $pool).Value -ne 'Stopped' -and $timeout -gt 0) {
+              Start-Sleep -Seconds 1
+              $timeout--
+            }
+          }
+
+      - name: Deploy files
+        shell: powershell
+        run: |
+          $dest = 'C:\Myapps\RSTUDIO'
+          if (!(Test-Path $dest)) { New-Item -ItemType Directory -Force $dest | Out-Null }
+          robocopy .\publish $dest /MIR /NJH /NJS /NFL /NDL /NC /NS /NP
+          if ($LASTEXITCODE -le 7) { exit 0 } else { exit $LASTEXITCODE }
+
+      - name: Start IIS App Pool
+        shell: powershell
+        if: always()
+        run: |
+          Import-Module WebAdministration
+          Start-WebAppPool -Name 'Rstudio'

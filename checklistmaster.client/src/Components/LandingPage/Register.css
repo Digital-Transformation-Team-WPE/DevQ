@@ -1,0 +1,191 @@
+/* ── Register-specific overrides & additions ──────────────── */
+
+.reg-block {
+  width: 360px;
+}
+
+/* Left branding panel */
+.reg-left-panel {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 32px;
+  gap: 0;
+}
+
+.reg-brand-content {
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.reg-brand-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--btn-primary-bg);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.reg-brand-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.reg-brand-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.reg-brand-desc {
+  font-size: 14px;
+  color: var(--text-label);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.reg-steps {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.reg-steps li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-label);
+}
+
+.reg-step-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--btn-primary-bg);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Role select */
+.reg-select {
+  width: 100%;
+  border: none;
+  border-bottom: 1.5px solid var(--input-border);
+  padding: 6px 2px;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  color: var(--text-label);
+  cursor: pointer;
+  appearance: none;
+  transition: border-color 0.2s;
+}
+
+.reg-select:focus {
+  border-bottom: 2px solid var(--input-focus);
+}
+
+/* Required star */
+.req {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+
+/* Success state */
+.reg-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.reg-success svg {
+  width: 52px;
+  height: 52px;
+  color: #27ae60;
+}
+
+.reg-success p {
+  font-size: 14px;
+  color: var(--text-label);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.reg-back-link {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 9px 28px;
+  background: var(--btn-primary-bg);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.reg-back-link:hover {
+  background: var(--btn-primary-hover);
+}
+
+/* Bottom hint */
+.reg-login-hint {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-label);
+  text-align: center;
+}
+
+.reg-login-link {
+  color: var(--btn-primary-bg);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.reg-login-link:hover {
+  text-decoration: underline;
+}
+
+/* Email validation inline hints */
+.reg-field-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.reg-hint-checking {
+  color: #7f8c8d;
+}
+
+.reg-hint-valid {
+  color: #27ae60;
+}
+
+.reg-hint-invalid {
+  color: #e74c3c;
+}
