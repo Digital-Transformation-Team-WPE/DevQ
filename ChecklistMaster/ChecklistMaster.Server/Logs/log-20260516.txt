@@ -1,0 +1,357 @@
+2026-05-16 00:03:26.035 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:03:26.035 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:26.035 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:03:26.035 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:26.036 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:26.037 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:03:26.185 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 150.8008 ms
+2026-05-16 00:03:26.193 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:26.197 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 4.1180 ms
+2026-05-16 00:03:26.419 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 384.8250 ms
+2026-05-16 00:03:26.426 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:03:26.453 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 28.3635 ms
+2026-05-16 00:03:26.521 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 485.5186 ms
+2026-05-16 00:03:26.521 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 486.2085 ms
+2026-05-16 00:03:26.532 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:26.532 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:26.536 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 4.9485 ms
+2026-05-16 00:03:26.537 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 5.3179 ms
+2026-05-16 00:03:26.670 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 633.1771 ms
+2026-05-16 00:03:26.680 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:03:26.683 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 4.4321 ms
+2026-05-16 00:03:26.902 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:26.902 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:26.902 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:26.902 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:03:26.925 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 23.6052 ms
+2026-05-16 00:03:26.925 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 23.2078 ms
+2026-05-16 00:03:26.925 +05:30 [INF] HTTP GET /api/projects responded 200 in 24.1628 ms
+2026-05-16 00:03:26.936 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:26.936 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:26.936 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:26.940 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 4.3610 ms
+2026-05-16 00:03:26.940 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 4.9687 ms
+2026-05-16 00:03:26.942 +05:30 [INF] HTTP GET /api/projects responded 200 in 6.1383 ms
+2026-05-16 00:03:26.950 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 48.4862 ms
+2026-05-16 00:03:26.957 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:03:27.000 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 44.5788 ms
+2026-05-16 00:03:30.828 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:03:30.828 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:30.828 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:30.834 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 7.0426 ms
+2026-05-16 00:03:30.835 +05:30 [INF] HTTP GET /api/projects responded 200 in 7.7039 ms
+2026-05-16 00:03:30.836 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 9.3937 ms
+2026-05-16 00:03:30.844 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:30.844 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:03:30.846 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:30.846 +05:30 [INF] HTTP GET /api/projects responded 200 in 2.9150 ms
+2026-05-16 00:03:30.847 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 4.5473 ms
+2026-05-16 00:03:30.850 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 4.4551 ms
+2026-05-16 00:03:33.318 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:33.318 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:33.318 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:33.318 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:03:33.328 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 10.5834 ms
+2026-05-16 00:03:33.329 +05:30 [INF] HTTP GET /api/projects responded 200 in 11.6409 ms
+2026-05-16 00:03:33.330 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 13.0491 ms
+2026-05-16 00:03:33.344 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:33.344 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:33.344 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:33.350 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 7.5162 ms
+2026-05-16 00:03:33.352 +05:30 [INF] HTTP GET /api/projects responded 200 in 8.5489 ms
+2026-05-16 00:03:33.353 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 9.1328 ms
+2026-05-16 00:03:33.379 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 61.6427 ms
+2026-05-16 00:03:33.386 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:03:33.431 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 46.0883 ms
+2026-05-16 00:03:40.184 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:03:40.207 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 14171.9722 ms
+2026-05-16 00:03:46.895 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:03:46.923 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:03:52.876 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:52.878 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:52.878 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:03:52.887 +05:30 [INF] HTTP GET /api/projects responded 200 in 12.1194 ms
+2026-05-16 00:03:52.899 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:52.903 +05:30 [INF] HTTP GET /api/projects responded 200 in 4.6291 ms
+2026-05-16 00:03:53.070 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 194.5577 ms
+2026-05-16 00:03:53.071 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 195.2541 ms
+2026-05-16 00:03:53.082 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:53.082 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:03:53.087 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 6.0170 ms
+2026-05-16 00:03:53.088 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 6.1347 ms
+2026-05-16 00:03:53.326 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:03:53.326 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:03:54.367 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:54.368 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:54.369 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:54.369 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:54.574 +05:30 [INF] HTTP GET /api/projectissuelinks/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 210.2876 ms
+2026-05-16 00:03:54.583 +05:30 [INF] HTTP GET /api/projectissuelinks/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 2.7247 ms
+2026-05-16 00:03:54.766 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 398.4769 ms
+2026-05-16 00:03:54.767 +05:30 [INF] HTTP GET /api/projects responded 200 in 403.0655 ms
+2026-05-16 00:03:54.776 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:03:54.776 +05:30 [INF] Fetching all projects
+2026-05-16 00:03:54.781 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 5.1208 ms
+2026-05-16 00:03:54.781 +05:30 [INF] HTTP GET /api/projects responded 200 in 4.9164 ms
+2026-05-16 00:03:54.991 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 622.7700 ms
+2026-05-16 00:03:54.992 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 624.6045 ms
+2026-05-16 00:03:55.001 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:03:55.001 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:03:55.006 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 6.0720 ms
+2026-05-16 00:03:55.007 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 6.5723 ms
+2026-05-16 00:03:56.904 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 16721.4540 ms
+2026-05-16 00:04:06.200 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 19305.7506 ms
+2026-05-16 00:04:06.260 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 19338.5546 ms
+2026-05-16 00:04:11.703 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 18378.0180 ms
+2026-05-16 00:04:11.750 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 18424.3879 ms
+2026-05-16 00:04:23.531 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:04:23.531 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:23.531 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:04:23.532 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:04:23.532 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:04:23.545 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 14.6142 ms
+2026-05-16 00:04:23.546 +05:30 [INF] HTTP GET /api/projects responded 200 in 16.1776 ms
+2026-05-16 00:04:23.555 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:23.555 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:04:23.558 +05:30 [INF] HTTP GET /api/projects responded 200 in 3.4190 ms
+2026-05-16 00:04:23.577 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 45.2443 ms
+2026-05-16 00:04:23.577 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 22.6349 ms
+2026-05-16 00:04:23.585 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:04:23.608 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 24.4306 ms
+2026-05-16 00:04:23.658 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 126.8923 ms
+2026-05-16 00:04:23.675 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:04:23.744 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 71.2639 ms
+2026-05-16 00:04:37.799 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:04:37.810 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 14278.9483 ms
+2026-05-16 00:04:40.219 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:40.219 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:04:40.219 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:04:40.227 +05:30 [INF] HTTP GET /api/projects responded 200 in 9.3519 ms
+2026-05-16 00:04:40.234 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 15.2225 ms
+2026-05-16 00:04:40.234 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 15.7385 ms
+2026-05-16 00:04:40.236 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:40.256 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:04:40.257 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:04:40.264 +05:30 [INF] HTTP GET /api/projects responded 200 in 29.2564 ms
+2026-05-16 00:04:40.269 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 12.4886 ms
+2026-05-16 00:04:40.275 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 20.0462 ms
+2026-05-16 00:04:41.340 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:04:41.340 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:41.341 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:04:41.341 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:04:41.346 +05:30 [INF] HTTP GET /api/projectissuelinks/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 5.9157 ms
+2026-05-16 00:04:41.346 +05:30 [INF] HTTP GET /api/projects responded 200 in 6.6858 ms
+2026-05-16 00:04:41.346 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 5.6006 ms
+2026-05-16 00:04:41.350 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 9.2984 ms
+2026-05-16 00:04:41.354 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 13.9066 ms
+2026-05-16 00:04:41.362 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:41.365 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:04:41.365 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:04:41.367 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:04:41.368 +05:30 [INF] HTTP GET /api/projectissuelinks/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 6.4415 ms
+2026-05-16 00:04:41.370 +05:30 [INF] HTTP GET /api/projects responded 200 in 8.6834 ms
+2026-05-16 00:04:41.371 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 6.3736 ms
+2026-05-16 00:04:41.373 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 8.5106 ms
+2026-05-16 00:04:41.373 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 6.8932 ms
+2026-05-16 00:04:45.359 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:04:45.359 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:04:45.360 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:45.364 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 5.8327 ms
+2026-05-16 00:04:45.364 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 4.9337 ms
+2026-05-16 00:04:45.364 +05:30 [INF] HTTP GET /api/projects responded 200 in 4.8117 ms
+2026-05-16 00:04:45.364 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 4.8410 ms
+2026-05-16 00:04:45.367 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 8.1925 ms
+2026-05-16 00:04:45.379 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:04:45.379 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:04:45.380 +05:30 [INF] Fetching all projects
+2026-05-16 00:04:45.381 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 2.6269 ms
+2026-05-16 00:04:45.381 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 3.3749 ms
+2026-05-16 00:04:45.381 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 1.9002 ms
+2026-05-16 00:04:45.382 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 3.6358 ms
+2026-05-16 00:04:45.382 +05:30 [INF] HTTP GET /api/projects responded 200 in 2.9874 ms
+2026-05-16 00:04:51.994 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 14194.7766 ms
+2026-05-16 00:04:51.995 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:05:05.367 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:05:07.140 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 15145.6728 ms
+2026-05-16 00:05:07.194 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 6.4216 ms
+2026-05-16 00:05:18.707 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 13340.4951 ms
+2026-05-16 00:05:18.786 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 2.9936 ms
+2026-05-16 00:13:14.886 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:13:14.886 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:13:14.887 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:13:14.888 +05:30 [INF] Fetching all projects
+2026-05-16 00:13:15.052 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 167.3158 ms
+2026-05-16 00:13:15.211 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 323.9616 ms
+2026-05-16 00:13:15.353 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 468.6388 ms
+2026-05-16 00:13:15.353 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 466.7679 ms
+2026-05-16 00:13:15.501 +05:30 [INF] HTTP GET /api/projects responded 200 in 613.7684 ms
+2026-05-16 00:13:29.705 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 14819.7824 ms
+2026-05-16 00:13:29.795 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 6.5813 ms
+2026-05-16 00:13:30.785 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:13:30.785 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:13:30.785 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:13:30.786 +05:30 [INF] Fetching all projects
+2026-05-16 00:13:30.790 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 5.6378 ms
+2026-05-16 00:13:30.790 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 4.7019 ms
+2026-05-16 00:13:30.790 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 5.9287 ms
+2026-05-16 00:13:30.795 +05:30 [INF] HTTP GET /api/projects responded 200 in 10.0048 ms
+2026-05-16 00:13:30.801 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:13:30.810 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 10.4280 ms
+2026-05-16 00:13:30.975 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 190.4018 ms
+2026-05-16 00:13:42.688 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 11903.5758 ms
+2026-05-16 00:13:42.740 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 5.4722 ms
+2026-05-16 00:27:41.372 +05:30 [INF] HTTP GET /api/auth/me responded 401 in 1.9001 ms
+2026-05-16 00:27:41.387 +05:30 [INF] HTTP GET /api/auth/me responded 401 in 0.5225 ms
+2026-05-16 00:27:54.581 +05:30 [INF] Entra ID verified jagatheesh.k@external.stellantis.com — DisplayName: JAGATHEESH K (EXTERNAL), Department: EXE/APAC/IND/MFG/VPE/WPE.
+2026-05-16 00:27:54.598 +05:30 [INF] User jagatheesh.k logged in with role Admin.
+2026-05-16 00:27:54.600 +05:30 [INF] HTTP POST /api/auth/login responded 200 in 647.7134 ms
+2026-05-16 00:27:54.631 +05:30 [INF] Fetching all projects
+2026-05-16 00:27:54.632 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:27:54.633 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:27:54.633 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:27:54.634 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:27:54.636 +05:30 [INF] HTTP GET /api/projects responded 200 in 4.9213 ms
+2026-05-16 00:27:54.641 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 7.7773 ms
+2026-05-16 00:27:54.643 +05:30 [INF] Fetching all projects
+2026-05-16 00:27:54.644 +05:30 [INF] HTTP GET /api/projects responded 200 in 2.4581 ms
+2026-05-16 00:27:54.646 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:27:54.649 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 3.3444 ms
+2026-05-16 00:27:54.786 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 153.1227 ms
+2026-05-16 00:27:54.793 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:27:54.821 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 28.8963 ms
+2026-05-16 00:27:54.984 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 350.4379 ms
+2026-05-16 00:27:54.995 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:27:55.090 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 95.9145 ms
+2026-05-16 00:27:58.449 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:27:58.449 +05:30 [INF] Fetching all projects
+2026-05-16 00:27:58.449 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:27:58.453 +05:30 [INF] HTTP GET /api/projects responded 200 in 5.4363 ms
+2026-05-16 00:27:58.455 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 6.8710 ms
+2026-05-16 00:27:58.457 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 8.0719 ms
+2026-05-16 00:27:58.463 +05:30 [INF] Fetching all projects
+2026-05-16 00:27:58.465 +05:30 [INF] Fetching all project issue links
+2026-05-16 00:27:58.466 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:27:58.471 +05:30 [INF] HTTP GET /api/projectissuelinks responded 200 in 5.8679 ms
+2026-05-16 00:27:58.471 +05:30 [INF] HTTP GET /api/projects responded 200 in 8.7776 ms
+2026-05-16 00:27:58.475 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 10.6308 ms
+2026-05-16 00:28:00.150 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:28:00.150 +05:30 [INF] Fetching all projects
+2026-05-16 00:28:00.150 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:00.151 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:28:00.156 +05:30 [INF] HTTP GET /api/projectissuelinks/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 6.4245 ms
+2026-05-16 00:28:00.156 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 6.3169 ms
+2026-05-16 00:28:00.157 +05:30 [INF] HTTP GET /api/projects responded 200 in 8.3259 ms
+2026-05-16 00:28:00.159 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 9.1030 ms
+2026-05-16 00:28:00.171 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:28:00.171 +05:30 [INF] HTTP GET /api/projectissuelinks/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 3.1104 ms
+2026-05-16 00:28:00.171 +05:30 [INF] Fetching all projects
+2026-05-16 00:28:00.160 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 10.1097 ms
+2026-05-16 00:28:00.171 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:00.172 +05:30 [INF] Fetching all component metadata
+2026-05-16 00:28:00.173 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 2.6575 ms
+2026-05-16 00:28:00.179 +05:30 [INF] HTTP GET /api/projects responded 200 in 8.6051 ms
+2026-05-16 00:28:00.184 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 13.4174 ms
+2026-05-16 00:28:00.188 +05:30 [INF] HTTP GET /api/componentmetadata responded 200 in 16.0422 ms
+2026-05-16 00:28:04.585 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:04.585 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:28:04.585 +05:30 [INF] Fetching all projects
+2026-05-16 00:28:04.593 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 8.6440 ms
+2026-05-16 00:28:04.594 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 9.6665 ms
+2026-05-16 00:28:04.608 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 2.5685 ms
+2026-05-16 00:28:04.608 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 2.9398 ms
+2026-05-16 00:28:04.755 +05:30 [INF] HTTP GET /api/projects responded 200 in 170.7369 ms
+2026-05-16 00:28:04.755 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 171.6188 ms
+2026-05-16 00:28:04.755 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 171.1601 ms
+2026-05-16 00:28:04.767 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:04.767 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:28:04.768 +05:30 [INF] Fetching all projects
+2026-05-16 00:28:04.773 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 6.7599 ms
+2026-05-16 00:28:04.773 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 7.2070 ms
+2026-05-16 00:28:04.773 +05:30 [INF] HTTP GET /api/projects responded 200 in 5.8196 ms
+2026-05-16 00:28:04.782 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:04.788 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 7.3978 ms
+2026-05-16 00:28:04.796 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:04.799 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 4.2623 ms
+2026-05-16 00:28:08.512 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:28:08.522 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 13889.4880 ms
+2026-05-16 00:28:17.267 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:17.267 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:28:17.267 +05:30 [INF] Fetching all projects
+2026-05-16 00:28:17.272 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 4.8233 ms
+2026-05-16 00:28:17.272 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 5.2882 ms
+2026-05-16 00:28:17.272 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 5.2039 ms
+2026-05-16 00:28:17.282 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:17.284 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 1.9784 ms
+2026-05-16 00:28:17.284 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 2.3741 ms
+2026-05-16 00:28:17.284 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 2.9306 ms
+2026-05-16 00:28:17.292 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:17.296 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 4.1026 ms
+2026-05-16 00:28:17.302 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:28:17.305 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 3.5803 ms
+2026-05-16 00:28:17.410 +05:30 [INF] HTTP GET /api/projects responded 200 in 142.9522 ms
+2026-05-16 00:28:17.410 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 143.3245 ms
+2026-05-16 00:28:17.420 +05:30 [INF] Fetching all projects
+2026-05-16 00:28:17.420 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:28:17.423 +05:30 [INF] HTTP GET /api/projects responded 200 in 3.3573 ms
+2026-05-16 00:28:17.425 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 5.6214 ms
+2026-05-16 00:28:21.652 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:28:21.657 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 13145.9666 ms
+2026-05-16 00:28:24.594 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:28:36.766 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:28:36.773 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 15121.5324 ms
+2026-05-16 00:28:36.857 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 7.4093 ms
+2026-05-16 00:28:37.280 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:28:40.391 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 15797.2284 ms
+2026-05-16 00:28:40.451 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 3.9000 ms
+2026-05-16 00:28:52.941 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 16175.7012 ms
+2026-05-16 00:28:53.002 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 2.1367 ms
+2026-05-16 00:28:53.183 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 15906.7999 ms
+2026-05-16 00:28:53.265 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 2.6511 ms
+2026-05-16 00:40:16.363 +05:30 [INF] HTTP GET /api/auth/me responded 200 in 10.1139 ms
+2026-05-16 00:40:16.367 +05:30 [INF] HTTP GET /api/auth/me responded 200 in 0.6310 ms
+2026-05-16 00:40:16.395 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:40:16.395 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:40:16.397 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:40:16.398 +05:30 [INF] Fetching all projects
+2026-05-16 00:40:16.559 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 165.2968 ms
+2026-05-16 00:40:16.568 +05:30 [INF] HTTP GET /api/dmrschecklists/byIssueNumber/P0010002 responded 200 in 1.9275 ms
+2026-05-16 00:40:16.677 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 280.2687 ms
+2026-05-16 00:40:16.711 +05:30 [INF] HTTP GET /api/projectissuelinks/byIssueNumber/P0010002 responded 200 in 26.9373 ms
+2026-05-16 00:40:16.823 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 429.6936 ms
+2026-05-16 00:40:16.823 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 427.3738 ms
+2026-05-16 00:40:16.834 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:40:16.834 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:40:16.837 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 3.6875 ms
+2026-05-16 00:40:16.839 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 5.4011 ms
+2026-05-16 00:40:16.844 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:40:16.849 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 6.5594 ms
+2026-05-16 00:40:16.859 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:40:16.862 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 3.5819 ms
+2026-05-16 00:40:16.979 +05:30 [INF] HTTP GET /api/projects responded 200 in 581.7551 ms
+2026-05-16 00:40:16.992 +05:30 [INF] Fetching all projects
+2026-05-16 00:40:16.996 +05:30 [INF] HTTP GET /api/projects responded 200 in 5.4018 ms
+2026-05-16 00:40:19.935 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:40:19.935 +05:30 [INF] Fetching all projects
+2026-05-16 00:40:19.935 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:40:19.935 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:40:19.939 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 4.3642 ms
+2026-05-16 00:40:19.938 +05:30 [INF] HTTP GET /api/projects responded 200 in 4.0276 ms
+2026-05-16 00:40:19.939 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 4.3656 ms
+2026-05-16 00:40:19.950 +05:30 [INF] Fetching all checklist milestones
+2026-05-16 00:40:19.950 +05:30 [INF] Fetching all projects
+2026-05-16 00:40:19.950 +05:30 [INF] Fetching all issue list docinfos
+2026-05-16 00:40:19.952 +05:30 [INF] HTTP GET /api/checklistmilestones responded 200 in 3.3664 ms
+2026-05-16 00:40:19.953 +05:30 [INF] HTTP GET /api/projects responded 200 in 3.7157 ms
+2026-05-16 00:40:19.973 +05:30 [INF] HTTP GET /api/issuelistdocinfos responded 200 in 23.6227 ms
+2026-05-16 00:40:19.979 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 44.7799 ms
+2026-05-16 00:40:19.984 +05:30 [INF] Fetching all DMRS checklists
+2026-05-16 00:40:20.022 +05:30 [INF] HTTP GET /api/dmrschecklists responded 200 in 38.6056 ms
+2026-05-16 00:40:30.041 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:40:30.048 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 13654.0124 ms
+2026-05-16 00:40:30.143 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 8.1809 ms
+2026-05-16 00:40:39.939 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:40:39.939 +05:30 [INF] Fetching all checklist master records
+2026-05-16 00:40:44.119 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 14078.9404 ms
+2026-05-16 00:40:44.201 +05:30 [INF] HTTP GET /api/partmilestones/byProject/AA698ADB71FB437492C049D83CD28EEC responded 200 in 16.0266 ms
+2026-05-16 00:40:55.788 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 15848.7545 ms
+2026-05-16 00:40:55.869 +05:30 [INF] HTTP GET /api/checklistmaster responded 200 in 15930.0434 ms

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(netstat -ano)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\" -Recurse -Directory | Select-Object -First 50 | ForEach-Object { $_.FullName })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\checklistmaster.client\\\\src\" -Recurse -Directory | ForEach-Object { $_.FullName.Replace\\('c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\checklistmaster.client\\\\src\\\\', ''\\) })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\checklistmaster.client\\\\src\" -Recurse -File | Select-Object -First 50 | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\ChecklistMaster.Server\\\\Controllers\" -File | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\ChecklistMaster.Server\\\\Models\" -File | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\checklistmaster.client\\\\src\" -Directory | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\" | Where-Object { $_.PSIsContainer } | Select-Object Name)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\checklistmaster.client\\\\src\\\\Components\\\\Dmrs\\\\DmrsManage.jsx\" | Measure-Object -Line\\).Lines)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\checklistmaster.client\\\\src\\\\Components\\\\Dmrs\\\\DmrsChecklists.jsx\" | Measure-Object -Line\\).Lines)",
+      "PowerShell([System.IO.File]::ReadAllText\\(\"C:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\ChecklistMaster.Server\\\\Data\\\\DbSeeder.cs\"\\) | Select-String -Pattern '\"\"Sync' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } | Select-Object -First 3)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\Deployment\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\Deployment\\\\\",\"\"\\) })",
+      "PowerShell(Copy-Item \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\rbtScript.sql\" \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\\\\Deployment\\\\rbtScript.sql\")",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\TA47460\\\\Desktop\\\\Projects\\\\WebAPp\\\\ChecklistMaster\" -Recurse -Force | Select-Object FullName, @{Name=\"Type\";Expression={if\\($_.PSIsContainer\\){\"DIR\"}else{\"FILE\"}}} | Format-Table -AutoSize)"
+    ]
+  }
+}
