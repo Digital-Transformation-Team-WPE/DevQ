@@ -23,33 +23,25 @@ jobs:
         run: dotnet publish ChecklistMaster.Server/ChecklistMaster.Server.csproj -c Release -o ./publish
 
       - name: Stop IIS App Pool
-        shell: pwsh
+        shell: cmd
         run: |
-          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
-          Import-Module WebAdministration
-          $pool = 'Rstudio'
-          if ((Get-WebAppPoolState -Name $pool).Value -ne 'Stopped') {
-            Stop-WebAppPool -Name $pool
-            $timeout = 15
-            while ((Get-WebAppPoolState -Name $pool).Value -ne 'Stopped' -and $timeout -gt 0) {
-              Start-Sleep -Seconds 1
-              $timeout--
-            }
-          }
+          REM Stop the app pool using appcmd.exe with admin privileges
+          "%windir%\system32\inetsrv\appcmd.exe" stop apppool /apppool.name:"Rstudio"
+          REM Wait for app pool to stop (optional timeout)
+          timeout /t 5 /nobreak
 
       - name: Deploy files
-        shell: pwsh
+        shell: cmd
         run: |
-          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
-          $dest = 'C:\Myapps\RSTUDIO'
-          if (!(Test-Path $dest)) { New-Item -ItemType Directory -Force $dest | Out-Null }
-          robocopy .\publish $dest /MIR /NJH /NJS /NFL /NDL /NC /NS /NP
-          if ($LASTEXITCODE -le 7) { exit 0 } else { exit $LASTEXITCODE }
+          setlocal enabledelayedexpansion
+          set "dest=C:\Myapps\RSTUDIO"
+          if not exist "!dest!" mkdir "!dest!"
+          robocopy .\publish "!dest!" /MIR /NJH /NJS /NFL /NDL /NC /NS /NP
+          if !errorlevel! leq 7 (exit /b 0) else (exit /b !errorlevel!)
 
       - name: Start IIS App Pool
-        shell: pwsh
+        shell: cmd
         if: always()
         run: |
-          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
-          Import-Module WebAdministration
-          Start-WebAppPool -Name 'Rstudio'
+          REM Start the app pool using appcmd.exe with admin privileges
+          "%windir%\system32\inetsrv\appcmd.exe" start apppool /apppool.name:"Rstudio"
