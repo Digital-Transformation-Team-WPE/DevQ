@@ -26,7 +26,7 @@ jobs:
         shell: cmd
         run: |
           REM Stop the app pool using appcmd.exe with admin privileges
-          "%windir%\system32\inetsrv\appcmd.exe" stop apppool /apppool.name:"Rstudio"
+          "%windir%\system32\inetsrv\appcmd.exe" stop apppool /apppool.name:"Default Web Site"
           REM Wait for app pool to stop (optional timeout)
           timeout /t 5 /nobreak
 
@@ -44,4 +44,4 @@ jobs:
         if: always()
         run: |
           REM Start the app pool using appcmd.exe with admin privileges
-          "%windir%\system32\inetsrv\appcmd.exe" start apppool /apppool.name:"Rstudio"
+          "%windir%\system32\inetsrv\appcmd.exe" start apppool /apppool.name:"Default Web Site"
